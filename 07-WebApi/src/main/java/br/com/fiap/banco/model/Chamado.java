@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 public class Chamado {
 	private int id;
-	private int idSegurado, idEnderecoSegurado,idContatoSegurado,idInfoVeiculo,idEnderecoChamado;
 	private String descricao;
 	private LocalDateTime dataCadastro;
 	private EnderecoChamado enderecoChamado;
@@ -25,17 +24,51 @@ public class Chamado {
 	}
 
 
-	
-	
 
-	public ContatoSegurado getContatoSegurado() {
-		return contatoSegurado;
+	public int getId() {
+		return id;
 	}
 
 
 
-	public void setContatoSegurado(ContatoSegurado contatoSegurado) {
-		this.contatoSegurado = contatoSegurado;
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+
+
+	public LocalDateTime getDataCadastro() {
+		return dataCadastro;
+	}
+
+
+
+	public void setDataCadastro(LocalDateTime dataCadastro) {
+		this.dataCadastro = dataCadastro;
+	}
+
+
+
+	public EnderecoChamado getEnderecoChamado() {
+		return enderecoChamado;
+	}
+
+
+
+	public void setEnderecoChamado(EnderecoChamado enderecoChamado) {
+		this.enderecoChamado = enderecoChamado;
 	}
 
 
@@ -52,14 +85,14 @@ public class Chamado {
 
 
 
-	public EnderecoChamado getEnderecoChamado() {
-		return enderecoChamado;
+	public ContatoSegurado getContatoSegurado() {
+		return contatoSegurado;
 	}
 
 
 
-	public void setEnderecoChamado(EnderecoChamado enderecoChamado) {
-		this.enderecoChamado = enderecoChamado;
+	public void setContatoSegurado(ContatoSegurado contatoSegurado) {
+		this.contatoSegurado = contatoSegurado;
 	}
 
 
@@ -87,92 +120,6 @@ public class Chamado {
 	}
 
 
-
-	public int getIdSegurado() {
-		return idSegurado;
-	}
-
-
-
-	public void setIdSegurado(int idSegurado) {
-		this.idSegurado = idSegurado;
-	}
-
-
-
-
-	public LocalDateTime getDataCadastro() {
-		return dataCadastro;
-	}
-
-
-
-	public int getIdEnderecoSegurado() {
-		return idEnderecoSegurado;
-	}
-
-
-
-	public void setIdEnderecoSegurado(int idEnderecoSegurado) {
-		this.idEnderecoSegurado = idEnderecoSegurado;
-	}
-
-
-
-	public int getIdContatoSegurado() {
-		return idContatoSegurado;
-	}
-
-
-
-	public void setIdContatoSegurado(int idContatoSegurado) {
-		this.idContatoSegurado = idContatoSegurado;
-	}
-
-
-
-	public int getIdInfoVeiculo() {
-		return idInfoVeiculo;
-	}
-
-
-
-	public void setIdInfoVeiculo(int idInfoVeiculo) {
-		this.idInfoVeiculo = idInfoVeiculo;
-	}
-
-
-
-	public int getIdEnderecoChamado() {
-		return idEnderecoChamado;
-	}
-
-
-
-	public void setIdEnderecoChamado(int idEnderecoChamado) {
-		this.idEnderecoChamado = idEnderecoChamado;
-	}
-
-
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	public void setDataCadastro(LocalDateTime dataCadastro) {
-		this.dataCadastro = dataCadastro;
-	}
+	
 
 }

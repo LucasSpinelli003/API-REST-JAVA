@@ -1,0 +1,56 @@
+package br.com.fiap.banco.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.fiap.banco.model.ContatoSegurado;
+import br.com.fiap.banco.model.EnderecoChamado;
+import br.com.fiap.banco.model.EnderecoSegurado;
+import br.com.fiap.banco.model.Segurado;
+
+public class EnderecoChamadoDao {
+
+	private Connection conn;
+
+	public EnderecoChamadoDao(Connection conn) {
+		super();
+		this.conn = conn;
+	}
+	
+	public List<EnderecoChamado> listar() throws ClassNotFoundException, SQLException {
+
+		PreparedStatement stm = conn.prepareStatement("select * from t_sip_endereco_chamado");
+
+		ResultSet result = stm.executeQuery();
+
+		List<EnderecoChamado> lista = new ArrayList<EnderecoChamado>();
+
+		while (result.next()) {
+			Segurado segurado = parse(result);
+			lista.add(segurado);
+		}
+		return lista;
+	}
+	
+	private Segurado parse(ResultSet result) throws SQLException {
+		int id = result.getInt("id_segurado");
+		int idEnderecoSegurado = result.getInt("id_endereco_segurado");
+		int idContatoSegurado = result.getInt("id_contato_segurado");
+		String nomeCompleto = result.getString("nome_completo");
+		LocalDateTime dataNascimento = result.getObject("data_nascimento", LocalDateTime.class);
+		String rg = result.getString("rg");
+		String cpf = result.getString("cpf");
+
+		EnderecoChamado enderecoChamado = new EnderecoChamado(id, nomeCompleto, rg, cpf, dataNascimento);
+
+		return segurado;
+	}
+
+	
+	
+}

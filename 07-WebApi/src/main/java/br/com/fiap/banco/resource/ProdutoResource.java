@@ -6,6 +6,7 @@ import java.util.List;
 import br.com.fiap.banco.exception.BadInfoException;
 import br.com.fiap.banco.exception.IdNotFoundException;
 import br.com.fiap.banco.model.Chamado;
+import br.com.fiap.banco.model.EnderecoChamado;
 import br.com.fiap.banco.model.Produto;
 import br.com.fiap.banco.service.ProdutoService;
 import jakarta.ws.rs.Consumes;
@@ -34,17 +35,17 @@ public class ProdutoResource {
 	}
 	
 	//GET http://localhost:8080/07-WebApi/api/produto/query?nome=aaa(Pesquisar por nome)
-	@GET
-	@Path("/query")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Produto> pesquisar(@QueryParam("nome") String pesquisa) throws SQLException{
-		return service.pesquisarPorNome(pesquisa);
-	}
+//	@GET
+//	@Path("/query")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public List<Produto> pesquisar(@QueryParam("nome") String pesquisa) throws SQLException{
+//		return service.pesquisarPorNome(pesquisa);
+//	}
 	
 	//GET http://localhost:8080/07-WebApi/api/produto (Listar todos os produtos)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Chamado> lista() throws ClassNotFoundException, SQLException {
+	public List<EnderecoChamado> lista() throws ClassNotFoundException, SQLException {
 		return service.listar();
 	}
 	
@@ -86,10 +87,10 @@ public class ProdutoResource {
 	@PUT
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response atualizar(Produto produto, @PathParam("id") int codigo) throws ClassNotFoundException, SQLException {
+	public Response atualizar(Chamado chamado, @PathParam("id") int id) throws ClassNotFoundException, SQLException {
 		try {
-			produto.setCodigo(codigo);
-			service.atualizar(produto);
+			chamado.setId(id);
+			service.atualizar(chamado);
 			return Response.ok().build();
 		} catch (IdNotFoundException e) {
 			return Response.status(Status.NOT_FOUND).build();

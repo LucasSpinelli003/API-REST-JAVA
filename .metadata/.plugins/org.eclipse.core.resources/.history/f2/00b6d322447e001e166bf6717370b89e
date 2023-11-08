@@ -1,0 +1,34 @@
+package br.com.fiap.banco.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.fiap.banco.model.Chamado;
+import br.com.fiap.banco.model.Segurado;
+
+public class SeguradoDao {
+	
+	private Connection conn;
+	
+	
+	
+	public List<Segurado> listar() throws ClassNotFoundException, SQLException {
+
+		PreparedStatement stm = conn.prepareStatement("select * from t_sip_segurado");
+
+		ResultSet result = stm.executeQuery();
+
+		List<Segurado> lista = new ArrayList<Segurado>();
+
+		while (result.next()) {
+			Chamado chamado = parse(result);
+			lista.add(chamado);
+		}
+		return lista;
+	}
+	
+}

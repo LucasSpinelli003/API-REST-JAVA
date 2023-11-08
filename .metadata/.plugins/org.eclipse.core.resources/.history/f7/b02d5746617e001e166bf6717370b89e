@@ -1,0 +1,68 @@
+package br.com.fiap.banco.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.fiap.banco.model.ContatoSegurado;
+import br.com.fiap.banco.model.EnderecoChamado;
+import br.com.fiap.banco.model.EnderecoSegurado;
+import br.com.fiap.banco.model.Segurado;
+
+public class EnderecoChamadoDao {
+
+	private Connection conn;
+
+	public EnderecoChamadoDao(Connection conn) {
+		super();
+		this.conn = conn;
+	}
+	
+	public List<EnderecoChamado> listar() throws ClassNotFoundException, SQLException {
+
+		PreparedStatement stm = conn.prepareStatement("select * from t_sip_endereco_chamado");
+
+		ResultSet result = stm.executeQuery();
+
+		List<EnderecoChamado> lista = new ArrayList<EnderecoChamado>();
+
+		while (result.next()) {
+			EnderecoChamado enderecoChamado = parse(result);
+			lista.add(enderecoChamado);
+		}
+		return lista;
+	}
+	
+	private EnderecoChamado parse(ResultSet result) throws SQLException {
+		int id = result.getInt("id_endereco_chamado");
+		String idEnderecoSegurado = result.getString("logradouro");
+		String idContatoSegurado = result.getString("ponto_referencia");
+	
+		
+		EnderecoChamado enderecoChamado = new EnderecoChamado(id, idEnderecoSegurado, idContatoSegurado);
+
+		return enderecoChamado;
+	}
+	
+	public void cadastrar(EnderecoChamado enderecoChamado) throws ClassNotFoundException, SQLException {
+
+		// Criar o objeto com o comando SQL configuravel
+		PreparedStatement stm = conn.prepareStatement(
+				"INSERT INTO" + " T_SIP_SEGURADO (id_endereco_chamado, logradouro, ponto_referencia) " + "values (?, ?, ?)");
+
+		// Setar os valores no comando SQL
+		stm.setInt(1, enderecoChamado.getId());
+		stm.setString(2, enderecoChamado.getLogradouro());
+		stm.setString(3, enderecoChamado.getPontoReferencia());
+		
+		// Executar o comando SQL
+		stm.executeUpdate();
+	}
+
+	
+	
+}

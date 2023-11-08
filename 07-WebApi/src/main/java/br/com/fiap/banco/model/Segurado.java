@@ -7,38 +7,85 @@ public class Segurado {
 	private int idEndereco;
 	private int idContato;
 	private String nome;
-	private LocalDateTime dataNascimento;
 	private String rg;
 	private String cpf;
-	private String cep;
-	private String logradouro;
-	private String bairro;
-	private String complemento;
-	private String telefone;
-
-
-
-	private String email;
+	private LocalDateTime dataNascimento;
+	private EnderecoSegurado enderecoSegurado;
+	private ContatoSegurado contatoSegurado;
+	
 	
 	public Segurado() {}
 
-	public Segurado(int id, String nome, LocalDateTime dataNascimento, String rg, String cpf, String cep,
-			String logradouro, String bairro, String complemento, String telefone, String email) {
+	public Segurado(int id, String nome, String rg, String cpf, LocalDateTime dataNascimento) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.dataNascimento = dataNascimento;
 		this.rg = rg;
 		this.cpf = cpf;
-		this.cep = cep;
-		this.logradouro = logradouro;
-		this.bairro = bairro;
-		this.complemento = complemento;
-		this.telefone = telefone;
-		this.email = email;
+		this.dataNascimento = dataNascimento;
 	}
 
-	
+
+
+
+
+
+
+	public String getRg() {
+		return rg;
+	}
+
+
+
+
+
+
+
+	public void setRg(String rg) {
+		this.rg = rg;
+	}
+
+
+
+
+
+
+
+	public String getCpf() {
+		return cpf;
+	}
+
+
+
+
+
+
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+
+
+
+
+
+
+	public EnderecoSegurado getEnderecoSegurado() {
+		return enderecoSegurado;
+	}
+
+	public void setEnderecoSegurado(EnderecoSegurado enderecoSegurado) {
+		this.enderecoSegurado = enderecoSegurado;
+	}
+
+	public ContatoSegurado getContatoSegurado() {
+		return contatoSegurado;
+	}
+
+	public void setContatoSegurado(ContatoSegurado contatoSegurado) {
+		this.contatoSegurado = contatoSegurado;
+	}
 
 	public int getIdContato() {
 		return idContato;
@@ -78,80 +125,5 @@ public class Segurado {
 
 	public void setDataNascimento(LocalDateTime dataNascimento) {
 		this.dataNascimento = dataNascimento;
-	}
-
-	public String getRg() {
-		return rg;
-	}
-
-	public void setRg(String rg) {
-		this.rg = rg;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
-	public String getCep() {
-		return cep;
-	}
-
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
-
-	public String getLogradouro() {
-		return logradouro;
-	}
-
-	public void setLogradouro(String logradouro) {
-		this.logradouro = logradouro;
-	}
-
-	public String getBairro() {
-		return bairro;
-	}
-
-	public void setBairro(String bairro) {
-		this.bairro = bairro;
-	}
-
-	public String getComplemento() {
-		return complemento;
-	}
-
-	public void setComplemento(String complemento) {
-		this.complemento = complemento;
-	}
-
-
-
-	public String getTelefone() {
-		return telefone;
-	}
-
-
-
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
-	}
-
-
-
-	public String getEmail() {
-		return email;
-	}
-
-
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	
-	
+	}	
 }

@@ -6,18 +6,25 @@ import java.util.List;
 
 import br.com.fiap.banco.dao.CategoriaDao;
 import br.com.fiap.banco.dao.ChamadoDao;
+import br.com.fiap.banco.dao.EnderecoChamadoDao;
 import br.com.fiap.banco.dao.ProdutoDao;
+import br.com.fiap.banco.dao.SeguradoDao;
 import br.com.fiap.banco.exception.BadInfoException;
 import br.com.fiap.banco.exception.IdNotFoundException;
 import br.com.fiap.banco.factory.ConnectionFactory;
 import br.com.fiap.banco.model.Categoria;
 import br.com.fiap.banco.model.Chamado;
+import br.com.fiap.banco.model.EnderecoChamado;
 import br.com.fiap.banco.model.Produto;
+import br.com.fiap.banco.model.Segurado;
+import br.com.fiap.banco.model.Veiculo;
 
 public class ProdutoService {
 
 	private ProdutoDao produtoDao;
 	private CategoriaDao categoriaDao;
+	private EnderecoChamadoDao enderecoChamadoDao;
+	private SeguradoDao seguradoDao;
 	private ChamadoDao chamadoDao;
 	
 	public ProdutoService() throws ClassNotFoundException, SQLException {
@@ -25,7 +32,8 @@ public class ProdutoService {
 		produtoDao = new ProdutoDao(conn);
 		categoriaDao = new CategoriaDao(conn);
 		chamadoDao = new ChamadoDao(conn);
-	}
+		enderecoChamadoDao = new EnderecoChamadoDao(conn);
+		}
 	
 	/*
 	 * public void cadastrar(Produto produto) throws ClassNotFoundException,
@@ -56,34 +64,36 @@ public class ProdutoService {
 		}
 	}
 	
-	public void atualizar(Produto produto) throws ClassNotFoundException, SQLException, IdNotFoundException, BadInfoException {
-		validar(produto);
-		produtoDao.atualizar(produto);
+	public void atualizar(Chamado chamado) throws ClassNotFoundException, SQLException, IdNotFoundException, BadInfoException {
+		//validar(produto);
+		chamadoDao.atualizar(chamado);
 	}
 	
-	public void remover(int codigo) throws ClassNotFoundException, SQLException, IdNotFoundException {
-		produtoDao.remover(codigo);
+	public void remover(int id) throws ClassNotFoundException, SQLException, IdNotFoundException {
+		chamadoDao.remover(id);
 	}
 	
-	//public List<Produto> listar() throws ClassNotFoundException, SQLException{
-	//	return produtoDao.listar();
-	//}
-	public List<Chamado> listar() throws ClassNotFoundException, SQLException{
-		return chamadoDao.listar();
+	public List<EnderecoChamado> listar() throws ClassNotFoundException, SQLException{
+		return enderecoChamadoDao.listar();
 	}
-	
-	public List<Produto> pesquisarPorNome(String nome) throws SQLException{
-		return produtoDao.pesquisarPorNome(nome);
-	}
-	
-	public Produto pesquisar(int codigo) throws ClassNotFoundException, SQLException, IdNotFoundException{
-		Produto p = produtoDao.pesquisar(codigo);
+		
+//	public Produto pesquisar(int codigo) throws ClassNotFoundException, SQLException, IdNotFoundException{
+//		Produto p = produtoDao.pesquisar(codigo);
+//		//Recuperar a categoria do produto, se existir
+//		if (p.getCategoria() != null) {
+//			Categoria c = categoriaDao.pesquisar(p.getCategoria().getCodigo());
+//			p.setCategoria(c);
+//		}
+//		return p;
+//	}
+	public Chamado pesquisar(int id) throws ClassNotFoundException, SQLException, IdNotFoundException{
+		Chamado ch = chamadoDao.pesquisar(id);
 		//Recuperar a categoria do produto, se existir
-		if (p.getCategoria() != null) {
-			Categoria c = categoriaDao.pesquisar(p.getCategoria().getCodigo());
-			p.setCategoria(c);
+		if (ch.getSegurado() != null) {
+			Segurado s = seguradoDao.pesquisar(ch.getSegurado().getId());
+			ch.setSegurado(s);
 		}
-		return p;
+		return ch;
 	}
 
 }

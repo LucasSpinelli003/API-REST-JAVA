@@ -8,14 +8,15 @@ public class Veiculo {
 	private double comprimento;
 	private double largura;
 	private int eixos;
-	private String tipo_carroceria;
+	private String tipoCarroceria;
 	private double pesoCarga;
 	private String alteracoes;
 	
 	public Veiculo() {}
 
+
 	public Veiculo(int id, String modelo, double peso, double altura, double comprimento, double largura, int eixos,
-			String tipo_carroceria, double pesoCarga, String alteracoes) {
+			String tipoCarroceria, double pesoCarga, String alteracoes) {
 		super();
 		this.id = id;
 		this.modelo = modelo;
@@ -24,10 +25,12 @@ public class Veiculo {
 		this.comprimento = comprimento;
 		this.largura = largura;
 		this.eixos = eixos;
-		this.tipo_carroceria = tipo_carroceria;
+		this.tipoCarroceria = tipoCarroceria;
 		this.pesoCarga = pesoCarga;
 		this.alteracoes = alteracoes;
 	}
+
+
 
 	public int getId() {
 		return id;
@@ -85,12 +88,12 @@ public class Veiculo {
 		this.eixos = eixos;
 	}
 
-	public String getTipo_carroceria() {
-		return tipo_carroceria;
+	public String getTipoCarroceria() {
+		return tipoCarroceria;
 	}
 
-	public void setTipo_carroceria(String tipo_carroceria) {
-		this.tipo_carroceria = tipo_carroceria;
+	public void setTipoCarroceria(String tipo_carroceria) {
+		this.tipoCarroceria = tipo_carroceria;
 	}
 
 	public double getPesoCarga() {

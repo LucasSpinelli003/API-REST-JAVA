@@ -1,0 +1,83 @@
+package br.com.fiap.banco.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.fiap.banco.model.Chamado;
+import br.com.fiap.banco.model.ContatoSegurado;
+import br.com.fiap.banco.model.EnderecoChamado;
+import br.com.fiap.banco.model.EnderecoSegurado;
+import br.com.fiap.banco.model.Segurado;
+import br.com.fiap.banco.model.Veiculo;
+
+public class ContatoSeguradoDao {
+
+	private Connection conn;
+
+	public ContatoSeguradoDao(Connection conn) {
+		super();
+		this.conn = conn;
+	}
+	
+	public List<ContatoSegurado> listar() throws ClassNotFoundException, SQLException {
+
+		PreparedStatement stm = conn.prepareStatement("select * from t_sip_contato_segurado");
+
+		ResultSet result = stm.executeQuery();
+
+		List<ContatoSegurado> lista = new ArrayList<ContatoSegurado>();
+
+		while (result.next()) {
+			ContatoSegurado contatoSegurado = parse(result);
+			lista.add(contatoSegurado);
+		}
+		return lista;
+	}
+	
+	private Chamado parse(ResultSet result) throws SQLException {
+		int id = result.getInt("id_chamado");
+		int idSegurado = result.getInt("id_segurado");
+		int idEnderecoSegurado = result.getInt("id_endereco_segurado");
+		int idContatoSegurado = result.getInt("id_contato_segurado");
+		int idInfoVeiculo = result.getInt("id_info_veiculo");
+		int idEnderecoChamado = result.getInt("id_endereco_chamado");
+		String descricao = result.getString("descricao");
+		LocalDateTime dataCadastro = result.getObject("data_chamado", LocalDateTime.class);
+		
+		Chamado chamado = new Chamado(id,descricao,dataCadastro);
+		
+		if (idSegurado != 0) {
+			Segurado segurado = new Segurado();
+			segurado.setId(idSegurado);
+			chamado.setSegurado(segurado);
+		}
+		if (idEnderecoSegurado != 0) {
+			EnderecoSegurado enderecoSegurado = new EnderecoSegurado();
+			enderecoSegurado.setId(idEnderecoSegurado);
+			chamado.setEnderecoSegurado(enderecoSegurado);
+		}
+		if (idContatoSegurado != 0) {
+			ContatoSegurado contatoSegurado = new ContatoSegurado();
+			contatoSegurado.setId(idContatoSegurado);
+			chamado.setContatoSegurado(contatoSegurado);
+		}
+		if (idInfoVeiculo != 0) {
+			Veiculo veiculo = new Veiculo();
+			veiculo.setId(idInfoVeiculo);
+			chamado.setVeiculo(veiculo);
+		}
+		if (idEnderecoChamado != 0) {
+			EnderecoChamado enderecoChamado = new EnderecoChamado();
+			enderecoChamado.setId(idEnderecoChamado);
+			chamado.setEnderecoChamado(enderecoChamado);
+		}
+		
+		return chamado;
+	}
+	
+}

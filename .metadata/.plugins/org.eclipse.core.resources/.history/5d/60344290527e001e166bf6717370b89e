@@ -1,0 +1,16 @@
+package br.com.fiap.banco.dao;
+
+import java.sql.Connection;
+
+public class EnderecoChamadoDao {
+
+	private Connection conn;
+
+	public EnderecoChamadoDao(Connection conn) {
+		super();
+		this.conn = conn;
+	}
+
+	
+	
+}

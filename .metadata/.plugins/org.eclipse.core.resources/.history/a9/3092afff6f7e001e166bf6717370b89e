@@ -1,0 +1,84 @@
+package br.com.fiap.banco.service;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+import br.com.fiap.banco.dao.VeiculoDao;
+import br.com.fiap.banco.exception.BadInfoException;
+import br.com.fiap.banco.exception.IdNotFoundException;
+import br.com.fiap.banco.factory.ConnectionFactory;
+import br.com.fiap.banco.model.Produto;
+import br.com.fiap.banco.model.Veiculo;
+
+
+public class VeiculoService {
+
+	private VeiculoDao veiculoDao;
+	
+	public VeiculoService() throws ClassNotFoundException, SQLException {
+		Connection conn = ConnectionFactory.getConnection();
+		veiculoDao = new VeiculoDao(conn);
+		}
+
+	public void cadastrar(Veiculo veiculo) throws ClassNotFoundException, SQLException, BadInfoException {
+		//validar(produto);
+		veiculoDao.cadastrar(veiculo);
+	}
+
+	private void validar(Veiculo veiculo) throws BadInfoException {
+		//Implementar algumas regras:
+		//Nome obrigatorio e nao pode ter mais do que 50 caracteres
+		if (veiculo.getModelo() == null || veiculo.getModelo().length() > 50) {
+			throw new BadInfoException("Nome invalido, nao pode ser nulo e no maximo 50 caracteres");
+		}
+		//Estoque, Valor de Compra e Venda tem que ser maiores do que 0
+		if (veiculo.getPeso() <= 0) {
+			throw new BadInfoException("Peso precisa que ser maior que 0");
+		}
+		if (veiculo.getAltura() <= 0) {
+			throw new BadInfoException("Altura que ser maior que 0");
+		}
+		if (veiculo.getComprimento() <= 0) {
+			throw new BadInfoException("Comprimento precisa que ser maior que 0");
+		}
+		if (veiculo.getLargura() <= 0) {
+			throw new BadInfoException("Largura precisa que ser maior que 0");
+		}
+		if (veiculo.getEixos() <= 0) {
+			throw new BadInfoException("Numero de Eixos precisam que ser maior que 0");
+		}
+		if (veiculo.getTipoCarroceria() == null || veiculo.getTipoCarroceria().length() > 30) {
+			throw new BadInfoException("Tipo de carroceria invalido, nao pode ser nulo e no maximo 30 caracteres");
+		}
+		if (veiculo.getPesoCarga() < 0) {
+			throw new BadInfoException("Peso carga não pode ser menor que 0");
+		}
+		if (veiculo.getAlteracoes() == null || veiculo.getAlteracoes().length() > 200) {
+			throw new BadInfoException("Tipo de carroceria invalido, nao pode ser nulo e no maximo 200 caracteres");
+		}
+	}
+	
+	public void atualizar(Veiculo veiculo) throws ClassNotFoundException, SQLException, IdNotFoundException, BadInfoException {
+		//validar(produto);
+		veiculoDao.atualizar(veiculo);
+	}
+	
+	public void remover(int id) throws ClassNotFoundException, SQLException, IdNotFoundException {
+		veiculoDao.remover(id);
+	}
+	
+	public List<Veiculo> listar() throws ClassNotFoundException, SQLException{
+		return veiculoDao.listar();
+	}
+	
+	public List<Veiculo> pesquisarPorNome(String nome) throws SQLException{
+		return veiculoDao.pesquisarPorNome(nome);
+	}
+		
+	public Veiculo pesquisar(int id) throws ClassNotFoundException, SQLException, IdNotFoundException{
+		Veiculo v = veiculoDao.pesquisar(id);
+		//Recuperar a categoria do produto, se existir
+		return v;
+	}
+
+}

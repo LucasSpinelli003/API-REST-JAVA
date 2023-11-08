@@ -1,0 +1,70 @@
+package br.com.fiap.banco.service;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+
+import br.com.fiap.banco.dao.CategoriaDao;
+import br.com.fiap.banco.dao.ChamadoDao;
+import br.com.fiap.banco.dao.EnderecoChamadoDao;
+import br.com.fiap.banco.dao.ProdutoDao;
+import br.com.fiap.banco.dao.SeguradoDao;
+import br.com.fiap.banco.exception.BadInfoException;
+import br.com.fiap.banco.exception.IdNotFoundException;
+import br.com.fiap.banco.factory.ConnectionFactory;
+import br.com.fiap.banco.model.Categoria;
+import br.com.fiap.banco.model.Chamado;
+import br.com.fiap.banco.model.ContatoSegurado;
+import br.com.fiap.banco.model.EnderecoChamado;
+import br.com.fiap.banco.model.Produto;
+import br.com.fiap.banco.model.Segurado;
+import br.com.fiap.banco.model.Veiculo;
+
+public class EnderecoChamadoService {
+	private EnderecoChamadoDao enderecoChamadoDao;
+	
+	public EnderecoChamadoService() throws ClassNotFoundException, SQLException {
+		Connection conn = ConnectionFactory.getConnection();
+		enderecoChamadoDao = new EnderecoChamadoDao(conn);
+	}
+	
+	public void cadastrar(EnderecoChamado enderecoChamado) throws ClassNotFoundException, SQLException, BadInfoException {
+		//validar(enderecoChamado);
+		enderecoChamadoDao.cadastrar(enderecoChamado);
+	}
+
+	private void validar(EnderecoChamado enderecoChamado) throws BadInfoException {
+		//Implementar algumas regras:
+		//Nome obrigatorio e nao pode ter mais do que 50 caracteres
+		if (enderecoChamado.getLogradouro() == null || enderecoChamado.getLogradouro().length() > 120) {
+			throw new BadInfoException("Logradouro invalido, nao pode ser nulo e no maximo 120 caracteres");
+		}
+		if (enderecoChamado.getPontoReferencia() == null || enderecoChamado.getPontoReferencia().length() > 100) {
+			throw new BadInfoException("Ponto de referencia invalido, nao pode ser nulo e no maximo 120 caracteres");
+		}
+	}
+	
+	public void atualizar(EnderecoChamado enderecoChamado) throws ClassNotFoundException, SQLException, IdNotFoundException, BadInfoException {
+		//validar(enderecoChamado);
+		enderecoChamadoDao.atualizar(enderecoChamado);
+	}
+	
+	public void remover(int id) throws ClassNotFoundException, SQLException, IdNotFoundException {
+		enderecoChamadoDao.remover(id);
+	}
+	
+	public List<EnderecoChamado> listar() throws ClassNotFoundException, SQLException{
+		return enderecoChamadoDao.listar();
+	}
+	
+	public List<EnderecoChamado> pesquisarPorNome(String nome) throws SQLException{
+		return enderecoChamadoDao.pesquisarPorNome(nome);
+	}
+	
+	public EnderecoChamado pesquisar(int id) throws ClassNotFoundException, SQLException, IdNotFoundException{
+		EnderecoChamado eC = enderecoChamadoDao.pesquisar(id);
+		
+		return eC;
+	}
+
+}

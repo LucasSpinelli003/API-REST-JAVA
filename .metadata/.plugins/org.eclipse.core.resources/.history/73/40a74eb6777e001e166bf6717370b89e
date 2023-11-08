@@ -1,0 +1,78 @@
+package br.com.fiap.banco.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.fiap.banco.model.Chamado;
+import br.com.fiap.banco.model.ContatoSegurado;
+import br.com.fiap.banco.model.EnderecoChamado;
+import br.com.fiap.banco.model.EnderecoSegurado;
+import br.com.fiap.banco.model.Segurado;
+import br.com.fiap.banco.model.Veiculo;
+
+public class ContatoSeguradoDao {
+
+	private Connection conn;
+
+	public ContatoSeguradoDao(Connection conn) {
+		super();
+		this.conn = conn;
+	}
+	
+	public List<ContatoSegurado> listar() throws ClassNotFoundException, SQLException {
+
+		PreparedStatement stm = conn.prepareStatement("select * from t_sip_contato_segurado");
+
+		ResultSet result = stm.executeQuery();
+
+		List<ContatoSegurado> lista = new ArrayList<ContatoSegurado>();
+
+		while (result.next()) {
+			ContatoSegurado contatoSegurado = parse(result);
+			lista.add(contatoSegurado);
+		}
+		return lista;
+	}
+	
+	private ContatoSegurado parse(ResultSet result) throws SQLException {
+		int id = result.getInt("id_contato_segurado");
+		int idSegurado = result.getInt("id_segurado");
+		String telefone = result.getString("telefone");
+		String email = result.getString("email");
+		
+		ContatoSegurado contatoSegurado = new ContatoSegurado(id,telefone,email);
+		
+		if (idSegurado != 0) {
+			Segurado segurado = new Segurado();
+			segurado.setId(idSegurado);
+			contatoSegurado.setSegurado(segurado);
+		}	
+		return contatoSegurado;
+	}
+	
+	public void cadastrar(Segurado segurado) throws ClassNotFoundException, SQLException {
+
+		// Criar o objeto com o comando SQL configuravel
+		PreparedStatement stm = conn.prepareStatement(
+				"INSERT INTO" + " T_SIP_SEGURADO (id_segurado, id_endereco_segurado, id_contato_segurado,"
+						+ " , nome_completo, data_nascimento, rg,cpf) " + "values (?, ?, ?, ?, ?, ?, ?)");
+
+		// Setar os valores no comando SQL
+		stm.setInt(1, segurado.getId());
+		stm.setInt(2, segurado.getEnderecoSegurado().getId());
+		stm.setInt(3, segurado.getContatoSegurado().getId());
+		stm.setString(4, segurado.getNome());
+		stm.setObject(5, segurado.getDataNascimento());
+		stm.setString(6, segurado.getRg());
+		stm.setString(7, segurado.getCpf());
+		// Executar o comando SQL
+		stm.executeUpdate();
+	}
+
+	
+}

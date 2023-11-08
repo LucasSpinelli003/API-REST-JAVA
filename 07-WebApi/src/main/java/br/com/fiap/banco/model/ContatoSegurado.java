@@ -3,18 +3,27 @@ package br.com.fiap.banco.model;
 public class ContatoSegurado {
 	
 	private int id;
-	private int idSegurado;
+	private Segurado segurado;
 	private String telefone;
 	private String email;
 	
 	public ContatoSegurado() {}
 
-	public ContatoSegurado(int id, int idSegurado, String telefone, String email) {
+	public ContatoSegurado(int id, String telefone, String email) {
 		super();
 		this.id = id;
-		this.idSegurado = idSegurado;
 		this.telefone = telefone;
 		this.email = email;
+	}
+
+	
+	
+	public Segurado getSegurado() {
+		return segurado;
+	}
+
+	public void setSegurado(Segurado segurado) {
+		this.segurado = segurado;
 	}
 
 	public int getId() {
@@ -23,14 +32,6 @@ public class ContatoSegurado {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getIdSegurado() {
-		return idSegurado;
-	}
-
-	public void setIdSegurado(int idSegurado) {
-		this.idSegurado = idSegurado;
 	}
 
 	public String getTelefone() {
@@ -48,8 +49,5 @@ public class ContatoSegurado {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	
-
 	
 }

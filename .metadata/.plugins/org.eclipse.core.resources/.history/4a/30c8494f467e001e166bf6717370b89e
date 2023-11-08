@@ -1,0 +1,81 @@
+package br.com.fiap.banco.model;
+
+import java.time.LocalDateTime;
+
+public class Segurado {
+	private int id;
+	private int idEndereco;
+	private int idContato;
+	private String nome;
+	private LocalDateTime dataNascimento;
+	private EnderecoSegurado enderecoSegurado;
+	private ContatoSegurado contatoSegurado;
+	
+	
+	public Segurado() {}
+
+	public Segurado(int id, String nome, LocalDateTime dataNascimento) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.dataNascimento = dataNascimento;
+	}
+
+	
+
+	public EnderecoSegurado getEnderecoSegurado() {
+		return enderecoSegurado;
+	}
+
+	public void setEnderecoSegurado(EnderecoSegurado enderecoSegurado) {
+		this.enderecoSegurado = enderecoSegurado;
+	}
+
+	public ContatoSegurado getContatoSegurado() {
+		return contatoSegurado;
+	}
+
+	public void setContatoSegurado(ContatoSegurado contatoSegurado) {
+		this.contatoSegurado = contatoSegurado;
+	}
+
+	public int getIdContato() {
+		return idContato;
+	}
+
+	public void setIdContato(int idContato) {
+		this.idContato = idContato;
+	}
+
+	public int getIdEndereco() {
+		return idEndereco;
+	}
+	
+	public void setIdEndereco(int idEndereco) {
+		this.idEndereco = idEndereco;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public LocalDateTime getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(LocalDateTime dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}	
+}
