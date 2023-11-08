@@ -1,0 +1,110 @@
+package br.com.fiap.banco.model;
+
+import java.time.LocalDateTime;
+
+public class Chamado {
+	private int id;
+	private int idSegurado, id_endereco_segurado,id_contato_segurado,id_info_veiculo,id_endereco_chamado;
+	private String descricao;
+	private LocalDateTime dataCadastro;
+	
+	private Chamado() {}
+	
+	
+
+	public Chamado(int id, String descricao, LocalDateTime dataCadastro) {
+		super();
+		this.id = id;
+		this.descricao = descricao;
+		this.dataCadastro = dataCadastro;
+	}
+
+
+
+	public int getIdSegurado() {
+		return idSegurado;
+	}
+
+
+
+	public void setIdSegurado(int idSegurado) {
+		this.idSegurado = idSegurado;
+	}
+
+
+
+	public int getId_endereco_segurado() {
+		return id_endereco_segurado;
+	}
+
+
+
+	public void setId_endereco_segurado(int id_endereco_segurado) {
+		this.id_endereco_segurado = id_endereco_segurado;
+	}
+
+
+
+	public int getId_contato_segurado() {
+		return id_contato_segurado;
+	}
+
+
+
+	public void setId_contato_segurado(int id_contato_segurado) {
+		this.id_contato_segurado = id_contato_segurado;
+	}
+
+
+
+	public int getId_info_veiculo() {
+		return id_info_veiculo;
+	}
+
+
+
+	public void setId_info_veiculo(int id_info_veiculo) {
+		this.id_info_veiculo = id_info_veiculo;
+	}
+
+
+
+	public int getId_endereco_chamado() {
+		return id_endereco_chamado;
+	}
+
+
+
+	public void setId_endereco_chamado(int id_endereco_chamado) {
+		this.id_endereco_chamado = id_endereco_chamado;
+	}
+
+
+
+	public LocalDateTime getDataCadastro() {
+		return dataCadastro;
+	}
+
+
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public void setDataCadastro(LocalDateTime dataCadastro) {
+		this.dataCadastro = dataCadastro;
+	}
+
+}

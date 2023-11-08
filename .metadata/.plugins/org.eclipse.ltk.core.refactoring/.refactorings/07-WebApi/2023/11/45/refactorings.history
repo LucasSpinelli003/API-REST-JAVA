@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;br.com.fiap.banco.model.EnderecoVeiculo&apos; to &apos;EnderecoSegurado&apos;&#x0D;&#x0A;- Original project: &apos;07-WebApi&apos;&#x0D;&#x0A;- Original element: &apos;br.com.fiap.banco.model.EnderecoVeiculo&apos;&#x0D;&#x0A;- Renamed element: &apos;br.com.fiap.banco.model.EnderecoSegurado&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;EnderecoVeiculo&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;br.com.fiap.banco.model{EnderecoVeiculo.java[EnderecoVeiculo" matchStrategy="1" name="EnderecoSegurado" qualified="false" references="true" similarDeclarations="false" stamp="1699404629378" textual="false" version="1.0"/>
+</session>

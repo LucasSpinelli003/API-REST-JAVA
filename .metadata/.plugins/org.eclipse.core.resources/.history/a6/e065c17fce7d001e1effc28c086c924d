@@ -1,0 +1,93 @@
+package br.com.fiap.banco.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.fiap.banco.model.Categoria;
+import br.com.fiap.banco.model.Chamado;
+import br.com.fiap.banco.model.Produto;
+import br.com.fiap.banco.model.Segurado;
+
+public class ChamadoDao {
+
+	private Connection conn;
+	
+	public ChamadoDao() {}
+	
+	public ChamadoDao(Connection conn) {
+		this.conn = conn;
+	}
+	
+	public List<Chamado> listar() throws ClassNotFoundException, SQLException {
+
+		PreparedStatement stm = conn.prepareStatement("select * from t_sip_chamado");
+
+		ResultSet result = stm.executeQuery();
+
+		List<Chamado> lista = new ArrayList<Chamado>();
+
+		while (result.next()) {
+			Chamado chamado = parse(result);
+			lista.add(chamado);
+		}
+		return lista;
+	}
+	
+	private Chamado parse(ResultSet result) throws SQLException {
+		int id = result.getInt("id_chamado");
+		int id_segurado = result.getInt("id_segurado");
+		int id_endereco_segurado = result.getInt("id_endereco_segurado");
+		int id_contato_segurado = result.getInt("id_contato_segurado");
+		int id_info_veiculo = result.getInt("id_info_veiculo");
+		int id_endereco_chamado = result.getInt("id_endereco_chamado");
+		String descricao = result.getString("descricao");
+		LocalDateTime dataCadastro = result.getObject("data_chamado", LocalDateTime.class);
+		
+		Chamado chamado = new Chamado(id,id_segurado,id_endereco_segurado,id_contato_segurado,id_info_veiculo,id_endereco_chamado,descricao,dataCadastro);
+		
+		if (id_segurado != 0) {
+			Segurado segurado = new Segurado();
+			segurado.setId(id_segurado);
+			chamado.setIdSegurado(id_segurado);
+		}
+		
+		if (id_endereco_segurado != 0) {
+			Segurado segurado = new Segurado();
+			segurado.setIdEndereco(id_endereco_segurado);
+			chamado.setId_endereco_segurado(id_endereco_segurado);
+		}
+		if (id_contato_segurado != 0) {
+			Segurado segurado = new Segurado();
+			segurado.setContatoSegurado(id_contato_segurado);
+			chamado.setId_endereco_segurado(id_endereco_segurado);
+		}
+		
+		return chamado;
+	}
+	
+	public void cadastrar(Chamado chamado) throws ClassNotFoundException, SQLException {
+
+		// Criar o objeto com o comando SQL configuravel
+		PreparedStatement stm = conn.prepareStatement("INSERT INTO" + " T_SIP_CHAMADO (id_chamado, id_segurado, id_endereco_segurado,"
+				+ " , id_contato_segurado, id_info_veiculo, id_endereco_chamado,descricao, data_chamado) "
+				+ "values (?, ?, ?, ?, ?, ?, ?, ?)");
+
+		// Setar os valores no comando SQL
+		stm.setInt(1, chamado.getId());
+		stm.setString(2, chamado.getIdSegurado());
+		stm.setInt(3, chamado.getId_endereco_segurado());
+		stm.setDouble(4, chamado.getId_contato_segurado());
+		stm.setDouble(5, chamado.getId_info_veiculo());
+		stm.setInt(6, chamado.getCategoria().getCodigo());
+		stm.setInt(7, chamado.getCategoria().getCodigo());
+		stm.setInt(8, chamado.getCategoria().getCodigo());
+		// Executar o comando SQL
+		stm.executeUpdate();
+	}
+	
+}

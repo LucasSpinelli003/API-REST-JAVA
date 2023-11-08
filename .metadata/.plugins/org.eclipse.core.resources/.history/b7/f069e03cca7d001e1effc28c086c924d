@@ -1,0 +1,73 @@
+package br.com.fiap.banco.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.fiap.banco.model.Categoria;
+import br.com.fiap.banco.model.Chamado;
+import br.com.fiap.banco.model.Produto;
+
+public class ChamadoDao {
+
+	private Connection conn;
+	
+	public ChamadoDao() {}
+	
+	public ChamadoDao(Connection conn) {
+		this.conn = conn;
+	}
+	
+	public List<Chamado> pesquisarPorNome(String nome) throws SQLException{
+		//Criar o objeto com o comando SQL
+		PreparedStatement stm = conn.prepareStatement("select * from t_produto where nm_produto like ?");
+		//Setar o parametro no comando SQL
+		stm.setString(1, "%"+nome+"%");
+		//Executar o comando SQL
+		ResultSet result = stm.executeQuery();
+		//Criar a lista de produtos
+		List<Produto> lista = new ArrayList<>();
+		//Recuperar os produtos encontrados e adicionar na lista
+		while (result.next()) {
+			Produto produto = parse(result);
+			lista.add(produto);
+		}
+		//Retornar a lista
+		return lista;
+	}
+	
+	public List<Chamado> listar() throws ClassNotFoundException, SQLException {
+
+		PreparedStatement stm = conn.prepareStatement("select * from t_sip_chamado");
+
+		ResultSet result = stm.executeQuery();
+
+		List<Chamado> lista = new ArrayList<Chamado>();
+
+		while (result.next()) {
+			Chamado chamado = parse(result);
+			lista.add(chamado);
+		}
+		return lista;
+	}
+	
+	private Chamado parse(ResultSet result) throws SQLException {
+		int id = result.getInt("id_chamado");
+		int id_segurado = result.getInt("id_segurado");
+		int id_endereco_segurado = result.getInt("id_endereco_segurado");
+		int id_contato_segurado = result.getInt("id_contato_segurado");
+		int id_info_veiculo = result.getInt("id_info_veiculo");
+		int id_endereco_chamado = result.getInt("id_endereco_chamado");
+		String descricao = result.getString("descricao");
+		LocalDateTime dataCadastro = result.getObject("data_chamado", LocalDateTime.class);
+		
+		Chamado chamado = new Chamado(id,id_segurado,id_endereco_segurado,id_contato_segurado,id_info_veiculo,id_endereco_chamado,descricao,dataCadastro);
+		
+		return chamado;
+	}
+	
+}

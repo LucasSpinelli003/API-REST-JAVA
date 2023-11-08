@@ -1,0 +1,92 @@
+package br.com.fiap.banco.model;
+
+import java.time.LocalDateTime;
+
+public class Chamado {
+	private int id;
+	private Segurado idSegurado;
+	private Veiculo veiculo;
+	private String logradouro;
+	private int numero;
+	private String pontoReferencia;
+	private String descricao;
+	private LocalDateTime dataCadastro;
+	
+	private Chamado() {}
+
+	public Chamado(int id, Segurado idSegurado,Veiculo veiculo, String logradouro, int numero, String pontoReferencia, String descricao,
+			Object dataCadastro) {
+		super();
+		this.id = id;
+		this.idSegurado = idSegurado;
+		this.veiculo = veiculo;
+		this.logradouro = logradouro;
+		this.numero = numero;
+		this.pontoReferencia = pontoReferencia;
+		this.descricao = descricao;
+		this.dataCadastro = dataCadastro;
+	}
+
+
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Segurado getIdSegurado() {
+		return idSegurado;
+	}
+
+	public void setIdSegurado(Segurado idSegurado) {
+		this.idSegurado = idSegurado;
+	}
+
+	public Veiculo getVeiculo() {
+		return veiculo;
+	}
+
+	public void setVeiculo(Veiculo veiculo) {
+		this.veiculo = veiculo;
+	}
+
+	public String getLogradouro() {
+		return logradouro;
+	}
+
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
+	}
+
+	public int getNumero() {
+		return numero;
+	}
+
+	public void setNumero(int numero) {
+		this.numero = numero;
+	}
+
+	public String getPontoReferencia() {
+		return pontoReferencia;
+	}
+
+	public void setPontoReferencia(String pontoReferencia) {
+		this.pontoReferencia = pontoReferencia;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public void setDataCadastro(LocalDateTime dataCadastro) {
+		this.dataCadastro = dataCadastro;
+	}
+
+}

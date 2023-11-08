@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.sql.Connection"/>
+    <fullyQualifiedTypeName name="java.time.LocalDateTime"/>
+    <fullyQualifiedTypeName name="br.com.fiap.banco.dao.ChamadoDao"/>
+    <fullyQualifiedTypeName name="br.com.fiap.banco.model.Chamado"/>
+    <fullyQualifiedTypeName name="br.com.fiap.banco.model.Segurado"/>
+    <fullyQualifiedTypeName name="br.com.fiap.banco.model.Veiculo"/>
+    <fullyQualifiedTypeName name="br.com.fiap.banco.model.ContatoSegurado"/>
+    <fullyQualifiedTypeName name="br.com.fiap.banco.model.EnderecoSegurado"/>
+    <fullyQualifiedTypeName name="br.com.fiap.banco.model.EnderecoChamado"/>
+</qualifiedTypeNameHistroy>

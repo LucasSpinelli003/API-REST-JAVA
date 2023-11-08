@@ -1,0 +1,52 @@
+package br.com.fiap.banco.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.fiap.banco.model.Chamado;
+import br.com.fiap.banco.model.Produto;
+
+public class ChamadoDao {
+
+	private Connection conn;
+	
+	public ChamadoDao() {}
+	
+	public ChamadoDao(Connection conn) {
+		this.conn = conn;
+	}
+	
+	public List<Chamado> listar() throws ClassNotFoundException, SQLException {
+
+		// Criar o comando SQL
+		PreparedStatement stm = conn.prepareStatement("select * from t_sip_chamado");
+
+		// Executar o comando SQL
+		ResultSet result = stm.executeQuery();
+
+		// Criar a lista de produtos
+		List<Chamado> lista = new ArrayList<Chamado>();
+
+		// Percorrer todos os registros encontrados
+		while (result.next()) {
+			int id = result.getInt("id_chamado");
+			int id_segurado = result.getInt("id_segurado");
+			int id_endereco_segurado = result.getInt("id_endereco_segurado");
+			int id_contato_segurado = result.getInt("id_contato_segurado");
+			int id_info_veiculo = result.getInt("id_info_veiculo");
+			int id_endereco_chamado = result.getInt("id_endereco_chamado");
+			String descricao = result.getString("descricao");
+			LocalDateTime dataCadastro = result.getObject("data_chamado", LocalDateTime.class);
+			
+			Chamado chamado = new Chamado(id,id_segurado,id_endereco_segurado,id_endereco_segurado,id_contato_segurado,id_info_veiculo,id_endereco_chamado,dataCadastro);
+		}
+		// Retornar a lista de produto
+		return lista;
+	}
+	
+}
