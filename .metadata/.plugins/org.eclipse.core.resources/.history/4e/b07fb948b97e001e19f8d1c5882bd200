@@ -1,0 +1,139 @@
+package br.com.fiap.solutech.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.fiap.solutech.exception.IdNotFoundException;
+import br.com.fiap.solutech.model.ContatoSegurado;
+import br.com.fiap.solutech.model.EnderecoSegurado;
+import br.com.fiap.solutech.model.Produto;
+
+public class EnderecoSeguradoDao {
+	
+	private Connection conn;
+
+	public EnderecoSeguradoDao(Connection conn) {
+		super();
+		this.conn = conn;
+	}
+	
+	public List<EnderecoSegurado> pesquisarPorBairro(String bairro) throws SQLException{
+		//Criar o objeto com o comando SQL
+		PreparedStatement stm = conn.prepareStatement("select * from t_sip_endereco_segurado where id_endereco_segurado like ?");
+		//Setar o parametro no comando SQL
+		stm.setString(1, "%"+bairro+"%");
+		//Executar o comando SQL
+		ResultSet result = stm.executeQuery();
+		//Criar a lista de produtos
+		List<EnderecoSegurado> lista = new ArrayList<>();
+		//Recuperar os produtos encontrados e adicionar na lista
+		while (result.next()) {
+			EnderecoSegurado enderecoSegurado = parse(result);
+			lista.add(enderecoSegurado);
+		}
+		//Retornar a lista
+		return lista;
+	}
+	
+	
+	public List<EnderecoSegurado> listar() throws ClassNotFoundException, SQLException {
+
+		PreparedStatement stm = conn.prepareStatement("select * from t_sip_endereco_segurado");
+
+		ResultSet result = stm.executeQuery();
+
+		List<EnderecoSegurado> lista = new ArrayList<EnderecoSegurado>();
+
+		while (result.next()) {
+			EnderecoSegurado enderecoSegurado = parse(result);
+			lista.add(enderecoSegurado);
+		}
+		return lista;
+	}
+	
+	private EnderecoSegurado parse(ResultSet result) throws SQLException {
+		int id = result.getInt("id_endereco_segurado");
+		String cep = result.getString("cep");
+		String logradouro = result.getString("logradouro");
+		String bairro = result.getString("bairro");
+		String complemento = result.getString("complemento");
+
+
+		EnderecoSegurado enderecoSegurado = new EnderecoSegurado(id,cep,logradouro,bairro,complemento);
+		
+		return enderecoSegurado;
+	}
+	
+	public void cadastrar(EnderecoSegurado enderecoSegurado) throws ClassNotFoundException, SQLException {
+
+		// Criar o objeto com o comando SQL configuravel
+		PreparedStatement stm = conn.prepareStatement(
+				"INSERT INTO" + " T_SIP_ENDERECO_SEGURADO (id_endereco_segurado, cep,"
+						+ " logradouro, bairro, complemento) " + "values (?, ?, ?, ?, ?)");
+
+		// Setar os valores no comando SQL
+		stm.setInt(1, enderecoSegurado.getId());
+		stm.setString(2, enderecoSegurado.getCep());
+		stm.setString(3, enderecoSegurado.getLogradouro());
+		stm.setString(4, enderecoSegurado.getBairro());
+		stm.setString(5, enderecoSegurado.getComplemento());
+		// Executar o comando SQL
+		stm.executeUpdate();
+	}
+	
+	public EnderecoSegurado pesquisar(int id) throws ClassNotFoundException, SQLException, IdNotFoundException {
+
+		// PreparedStatement (com select)
+		PreparedStatement stm = conn.prepareStatement("select * from" + " t_sip_endereco_segurado where id_endereco_segurado = ?");
+
+		// Setar o id no comando sql (select)
+		stm.setInt(1, id);
+
+		// Executar o comando SQL
+		ResultSet result = stm.executeQuery();
+
+		// Verifica se encontrou o produto
+		if (!result.next()) {
+			// Lança uma exception pois o produto não foi encontrado
+			throw new IdNotFoundException("Endereco do segurado não encontrado");
+		}
+		EnderecoSegurado enderecoSegurado = parse(result);
+		// Retornar o produto
+		return enderecoSegurado;
+	}
+	
+	public void atualizar(EnderecoSegurado enderecoSegurado) throws ClassNotFoundException, SQLException, IdNotFoundException {
+
+		// PreparedStatement
+		PreparedStatement stm = conn.prepareStatement("update t_sip_endereco_segurado set cep = ?, logradouro = ?, bairro = ?, complemento = ? where id_endereco_segurado = ?");
+		// Setar os parametros na Query
+		stm.setString(1, enderecoSegurado.getCep());
+		stm.setString(2, enderecoSegurado.getLogradouro());
+		stm.setString(3, enderecoSegurado.getBairro());
+		stm.setString(4, enderecoSegurado.getComplemento());
+		stm.setInt(5, enderecoSegurado.getId());
+		// Executar a Query
+		int linha = stm.executeUpdate();
+		if (linha == 0)
+			throw new IdNotFoundException("Endereco segurado não encontrado para atualizar");
+	}
+	
+	public void remover(int id) throws ClassNotFoundException, SQLException, IdNotFoundException {
+		
+		// PreparedStatement
+		PreparedStatement stm = conn.prepareStatement("delete from t_sip_endereco_segurado where id_endereco_segurado = ?");
+		// Setar os parametros na Query
+		stm.setInt(1, id);
+		// Executar a Query
+		int linha = stm.executeUpdate();
+		if (linha == 0)
+			throw new IdNotFoundException("Endereco segurado não encontrado para remoção");
+	}
+	
+	
+
+}

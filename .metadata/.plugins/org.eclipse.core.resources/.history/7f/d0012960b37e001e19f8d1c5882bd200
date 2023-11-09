@@ -1,0 +1,87 @@
+package br.com.fiap.banco.service;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+
+import br.com.fiap.banco.dao.CategoriaDao;
+import br.com.fiap.banco.dao.ChamadoDao;
+import br.com.fiap.banco.dao.ContatoSeguradoDao;
+import br.com.fiap.banco.dao.EnderecoSeguradoDao;
+import br.com.fiap.banco.dao.ProdutoDao;
+import br.com.fiap.banco.dao.SeguradoDao;
+import br.com.fiap.banco.dao.VeiculoDao;
+import br.com.fiap.banco.exception.BadInfoException;
+import br.com.fiap.banco.exception.IdNotFoundException;
+import br.com.fiap.banco.factory.ConnectionFactory;
+import br.com.fiap.banco.model.Categoria;
+import br.com.fiap.banco.model.Chamado;
+import br.com.fiap.banco.model.ContatoSegurado;
+import br.com.fiap.banco.model.EnderecoSegurado;
+import br.com.fiap.banco.model.Produto;
+import br.com.fiap.banco.model.Segurado;
+import br.com.fiap.banco.model.Veiculo;
+
+public class SeguradoService {
+	private SeguradoDao seguradoDao;
+	private EnderecoSeguradoDao enderecoSeguradoDao;
+	private ContatoSeguradoDao contatoSeguradoDao;
+	private VeiculoDao veiculoDao;
+	
+	public SeguradoService() throws ClassNotFoundException, SQLException {
+		Connection conn = ConnectionFactory.getConnection();
+		seguradoDao = new SeguradoDao(conn);
+		veiculoDao = new VeiculoDao(conn);
+		enderecoSeguradoDao = new EnderecoSeguradoDao(conn);
+		contatoSeguradoDao = new ContatoSeguradoDao(conn);
+	}
+	
+	public void cadastrar(Segurado segurado) throws ClassNotFoundException, SQLException, BadInfoException {
+		validar(segurado);
+		seguradoDao.cadastrar(segurado);
+	}
+
+	private void validar(Segurado segurado) throws BadInfoException {
+		//Implementar algumas regras:
+		//Nome obrigatorio e nao pode ter mais do que 50 caracteres
+		if (segurado.getNome() == null || segurado.getNome().length() > 80) {
+			throw new BadInfoException("Nome invalido, nao pode ser nulo e no maximo 80 caracteres");
+		}
+	}
+	
+	public void atualizar(Segurado segurado) throws ClassNotFoundException, SQLException, IdNotFoundException, BadInfoException {
+		validar(segurado);
+		seguradoDao.atualizar(segurado);
+	}
+	
+	public void remover(int id) throws ClassNotFoundException, SQLException, IdNotFoundException {
+		seguradoDao.remover(id);
+	}
+	
+	public List<Segurado> listar() throws ClassNotFoundException, SQLException{
+		return seguradoDao.listar();
+	}
+	
+	public List<Segurado> pesquisarPorNome(String nome) throws SQLException{
+		return seguradoDao.pesquisarPorNome(nome);
+	}
+	
+	public Segurado pesquisar(int id) throws ClassNotFoundException, SQLException, IdNotFoundException{
+		Segurado segurado = seguradoDao.pesquisar(id);
+		//Recuperar a categoria do produto, se existir
+		if (segurado.getEnderecoSegurado() != null) {
+			EnderecoSegurado enderecoSegurado = enderecoSeguradoDao.pesquisar(segurado.getEnderecoSegurado().getId());
+			segurado.setEnderecoSegurado(enderecoSegurado);
+		}
+		if (segurado.getContatoSegurado() != null) {
+			ContatoSegurado contatoSegurado = contatoSeguradoDao.pesquisar(segurado.getContatoSegurado().getId());
+			segurado.setContatoSegurado(contatoSegurado);
+		}
+		if (segurado.getVeiculo() != null) {
+			Veiculo veiculo = veiculoDao.pesquisar(segurado.getVeiculo().getId());
+			segurado.setVeiculo(veiculo);
+		}
+		return segurado;
+	}
+
+}

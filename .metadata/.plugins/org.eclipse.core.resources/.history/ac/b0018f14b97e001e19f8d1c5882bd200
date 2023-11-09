@@ -1,0 +1,62 @@
+package br.com.fiap.solutech.service;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+
+import br.com.fiap.banco.exception.BadInfoException;
+import br.com.fiap.banco.exception.IdNotFoundException;
+import br.com.fiap.banco.factory.ConnectionFactory;
+import br.com.fiap.banco.model.EnderecoChamado;
+import br.com.fiap.solutech.dao.EnderecoChamadoDao;
+
+
+
+public class EnderecoChamadoService {
+	private EnderecoChamadoDao enderecoChamadoDao;
+	
+	public EnderecoChamadoService() throws ClassNotFoundException, SQLException {
+		Connection conn = ConnectionFactory.getConnection();
+		enderecoChamadoDao = new EnderecoChamadoDao(conn);
+	}
+	
+	public void cadastrar(EnderecoChamado enderecoChamado) throws ClassNotFoundException, SQLException, BadInfoException {
+		validar(enderecoChamado);
+		enderecoChamadoDao.cadastrar(enderecoChamado);
+	}
+
+	private void validar(EnderecoChamado enderecoChamado) throws BadInfoException {
+		//Implementar algumas regras:
+		//Nome obrigatorio e nao pode ter mais do que 50 caracteres
+		if (enderecoChamado.getLogradouro() == null || enderecoChamado.getLogradouro().length() > 120) {
+			throw new BadInfoException("Logradouro invalido, nao pode ser nulo e no maximo 120 caracteres");
+		}
+		if (enderecoChamado.getPontoReferencia() == null || enderecoChamado.getPontoReferencia().length() > 100) {
+			throw new BadInfoException("Ponto de referencia invalido, nao pode ser nulo e no maximo 100 caracteres");
+		}
+	}
+	
+	public void atualizar(EnderecoChamado enderecoChamado) throws ClassNotFoundException, SQLException, IdNotFoundException, BadInfoException {
+		validar(enderecoChamado);
+		enderecoChamadoDao.atualizar(enderecoChamado);
+	}
+	
+	public void remover(int id) throws ClassNotFoundException, SQLException, IdNotFoundException {
+		enderecoChamadoDao.remover(id);
+	}
+	
+	public List<EnderecoChamado> listar() throws ClassNotFoundException, SQLException{
+		return enderecoChamadoDao.listar();
+	}
+	
+	public List<EnderecoChamado> pesquisarPorNome(String nome) throws SQLException{
+		return enderecoChamadoDao.pesquisarPorNome(nome);
+	}
+	
+	public EnderecoChamado pesquisar(int id) throws ClassNotFoundException, SQLException, IdNotFoundException{
+		EnderecoChamado eC = enderecoChamadoDao.pesquisar(id);
+		
+		return eC;
+	}
+
+}

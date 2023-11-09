@@ -1,0 +1,68 @@
+package br.com.fiap.banco.service;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+import br.com.fiap.banco.dao.ChamadoDao;
+import br.com.fiap.banco.dao.ContatoSeguradoDao;
+import br.com.fiap.banco.dao.EnderecoSeguradoDao;
+import br.com.fiap.banco.dao.SeguradoDao;
+import br.com.fiap.banco.exception.BadInfoException;
+import br.com.fiap.banco.exception.IdNotFoundException;
+import br.com.fiap.banco.factory.ConnectionFactory;
+import br.com.fiap.banco.model.Chamado;
+import br.com.fiap.banco.model.ContatoSegurado;
+import br.com.fiap.banco.model.EnderecoSegurado;
+import br.com.fiap.banco.model.Produto;
+import br.com.fiap.banco.model.Segurado;
+
+
+public class EnderecoSeguradoService {
+
+	private EnderecoSeguradoDao enderecoSeguradoDao;
+	
+	
+	public EnderecoSeguradoService() throws ClassNotFoundException, SQLException {
+		Connection conn = ConnectionFactory.getConnection();
+		enderecoSeguradoDao = new EnderecoSeguradoDao(conn);
+		}
+	
+	public void cadastrar(EnderecoSegurado enderecoSegurado) throws ClassNotFoundException, SQLException, BadInfoException {
+		//validar(enderecoSegurado);
+		enderecoSeguradoDao.cadastrar(enderecoSegurado);
+	}
+
+	private void validar(ContatoSegurado contatoSegurado) throws BadInfoException {
+		//Implementar algumas regras:
+		//Nome obrigatorio e nao pode ter mais do que 50 caracteres
+		if (contatoSegurado.getTelefone() == null || contatoSegurado.getTelefone().length() > 11) {
+			throw new BadInfoException("Telefone invalido, nao pode ser nulo e no maximo 11 caracteres");
+		}
+		if (contatoSegurado.getEmail() == null || contatoSegurado.getEmail().length() > 100) {
+			throw new BadInfoException("Email invalido, nao pode ser nulo e no maximo 100 caracteres");
+		}
+	}
+	
+	public void atualizar(EnderecoSegurado enderecoSegurado) throws ClassNotFoundException, SQLException, IdNotFoundException, BadInfoException {
+		//validar(contatoSegurado);
+		enderecoSeguradoDao.atualizar(enderecoSegurado);
+	}
+	
+	public void remover(int id) throws ClassNotFoundException, SQLException, IdNotFoundException {
+		enderecoSeguradoDao.remover(id);
+	}
+	
+	public List<EnderecoSegurado> listar() throws ClassNotFoundException, SQLException{
+		return enderecoSeguradoDao.listar();
+	}
+	
+	public List<EnderecoSegurado> pesquisarPorEmail(String bairro) throws SQLException{
+		return enderecoSeguradoDao.pesquisarPorBairro(bairro);
+	}
+		
+	public EnderecoSegurado pesquisar(int id) throws ClassNotFoundException, SQLException, IdNotFoundException{
+		EnderecoSegurado eS = enderecoSeguradoDao.pesquisar(id);
+		return eS;
+	}
+
+}

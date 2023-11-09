@@ -1,0 +1,53 @@
+package br.com.fiap.banco.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.fiap.banco.model.ContatoSegurado;
+import br.com.fiap.banco.model.EnderecoSegurado;
+
+public class EnderecoSeguradoDao {
+	
+	private Connection conn;
+
+	public EnderecoSeguradoDao(Connection conn) {
+		super();
+		this.conn = conn;
+	}
+	
+	public List<EnderecoSegurado> listar() throws ClassNotFoundException, SQLException {
+
+		PreparedStatement stm = conn.prepareStatement("select * from t_sip_endereco_segurado");
+
+		ResultSet result = stm.executeQuery();
+
+		List<EnderecoSegurado> lista = new ArrayList<EnderecoSegurado>();
+
+		while (result.next()) {
+			EnderecoSegurado enderecoSegurado = parse(result);
+			lista.add(enderecoSegurado);
+		}
+		return lista;
+	}
+	
+	private EnderecoSegurado parse(ResultSet result) throws SQLException {
+		int id = result.getInt("id_endereco_segurado");
+		String cep = result.getString("cep");
+		String logradouro = result.getString("logradouro");
+		String bairro = result.getString("bairro");
+		String complemento = result.getString("complemento");
+
+
+		
+		ContatoSegurado contatoSegurado = new ContatoSegurado(id,cep,logradouro,bairro,complemento);
+		
+		return contatoSegurado;
+	}
+	
+	
+
+}

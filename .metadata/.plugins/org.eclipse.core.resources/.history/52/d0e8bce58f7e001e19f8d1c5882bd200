@@ -1,0 +1,70 @@
+package br.com.fiap.banco.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.fiap.banco.model.ContatoSegurado;
+import br.com.fiap.banco.model.EnderecoSegurado;
+
+public class EnderecoSeguradoDao {
+	
+	private Connection conn;
+
+	public EnderecoSeguradoDao(Connection conn) {
+		super();
+		this.conn = conn;
+	}
+	
+	public List<EnderecoSegurado> listar() throws ClassNotFoundException, SQLException {
+
+		PreparedStatement stm = conn.prepareStatement("select * from t_sip_endereco_segurado");
+
+		ResultSet result = stm.executeQuery();
+
+		List<EnderecoSegurado> lista = new ArrayList<EnderecoSegurado>();
+
+		while (result.next()) {
+			EnderecoSegurado enderecoSegurado = parse(result);
+			lista.add(enderecoSegurado);
+		}
+		return lista;
+	}
+	
+	private EnderecoSegurado parse(ResultSet result) throws SQLException {
+		int id = result.getInt("id_endereco_segurado");
+		String cep = result.getString("cep");
+		String logradouro = result.getString("logradouro");
+		String bairro = result.getString("bairro");
+		String complemento = result.getString("complemento");
+
+
+		EnderecoSegurado enderecoSegurado = new EnderecoSegurado(id,cep,logradouro,bairro,complemento);
+		
+		return enderecoSegurado;
+	}
+	
+	public void cadastrar(EnderecoSegurado enderecoSegurado) throws ClassNotFoundException, SQLException {
+
+		// Criar o objeto com o comando SQL configuravel
+		PreparedStatement stm = conn.prepareStatement(
+				"INSERT INTO" + " T_SIP_ENDERECO_SEGURADO (id_endereco_segurado, cep,"
+						+ " , logradouro, bairro, complemento) " + "values (?, ?, ?)");
+
+		// Setar os valores no comando SQL
+		stm.setInt(1, enderecoSegurado.getId());
+		stm.setString(2, enderecoSegurado.getCep());
+		stm.setString(3, enderecoSegurado.getLogradouro());
+		stm.setString(4, enderecoSegurado.getBairro());
+		stm.setString(5, enderecoSegurado.getComplemento());
+		// Executar o comando SQL
+		stm.executeUpdate();
+	}
+	
+	
+	
+
+}
