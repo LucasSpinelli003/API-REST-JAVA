@@ -43,9 +43,6 @@ public class ChamadoDao {
 	private Chamado parse(ResultSet result) throws SQLException {
 		int id = result.getInt("id_chamado");
 		int idSegurado = result.getInt("id_segurado");
-		int idEnderecoSegurado = result.getInt("id_endereco_segurado");
-		int idContatoSegurado = result.getInt("id_contato_segurado");
-		int idInfoVeiculo = result.getInt("id_info_veiculo");
 		int idEnderecoChamado = result.getInt("id_endereco_chamado");
 		String descricao = result.getString("descricao");
 		LocalDateTime dataCadastro = result.getObject("data_chamado", LocalDateTime.class);
@@ -57,24 +54,10 @@ public class ChamadoDao {
 			segurado.setId(idSegurado);
 			chamado.setSegurado(segurado);
 		}
-		if (idEnderecoSegurado != 0) {
-			EnderecoSegurado enderecoSegurado = new EnderecoSegurado();
-			enderecoSegurado.setId(idEnderecoSegurado);
-			chamado.setEnderecoSegurado(enderecoSegurado);
-		}
-		if (idContatoSegurado != 0) {
-			ContatoSegurado contatoSegurado = new ContatoSegurado();
-			contatoSegurado.setId(idContatoSegurado);
-			chamado.setContatoSegurado(contatoSegurado);
-		}
-		if (idInfoVeiculo != 0) {
-			Veiculo veiculo = new Veiculo();
-			veiculo.setId(idInfoVeiculo);
-			chamado.setVeiculo(veiculo);
-		}
 		if (idEnderecoChamado != 0) {
 			EnderecoChamado enderecoChamado = new EnderecoChamado();
 			enderecoChamado.setId(idEnderecoChamado);
+			chamado.setEnderecoChamado(enderecoChamado);
 			chamado.setEnderecoChamado(enderecoChamado);
 		}
 		
@@ -84,19 +67,16 @@ public class ChamadoDao {
 	public void cadastrar(Chamado chamado) throws ClassNotFoundException, SQLException {
 
 		// Criar o objeto com o comando SQL configuravel
-		PreparedStatement stm = conn.prepareStatement("INSERT INTO" + " T_SIP_CHAMADO (id_chamado, id_segurado, id_endereco_segurado"
-				+ " , id_contato_segurado, id_info_veiculo, id_endereco_chamado,descricao, data_chamado) "
-				+ "values (?, ?, ?, ?, ?, ?, ?, ?)");
+		PreparedStatement stm = conn.prepareStatement("INSERT INTO" + " T_SIP_CHAMADO (id_chamado, id_segurado,"
+				+ "id_endereco_chamado,descricao, data_chamado) "
+				+ "values (?, ?, ?, ?, ?)");
 
 		// Setar os valores no comando SQL
 		stm.setInt(1, chamado.getId());
 		stm.setInt(2, chamado.getSegurado().getId());
-		stm.setInt(3, chamado.getEnderecoSegurado().getId());
-		stm.setInt(4, chamado.getContatoSegurado().getId());
-		stm.setInt(5, chamado.getVeiculo().getId());
-		stm.setInt(6, chamado.getEnderecoChamado().getId());
-		stm.setString(7, chamado.getDescricao());
-		stm.setObject(8, chamado.getDataCadastro());
+		stm.setInt(3, chamado.getEnderecoChamado().getId());
+		stm.setString(4, chamado.getDescricao());
+		stm.setObject(5, chamado.getDataCadastro());
 		// Executar o comando SQL
 		stm.executeUpdate();
 	}

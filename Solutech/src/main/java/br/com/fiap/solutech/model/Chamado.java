@@ -7,10 +7,7 @@ public class Chamado {
 	private String descricao;
 	private LocalDateTime dataCadastro;
 	private EnderecoChamado enderecoChamado;
-	private EnderecoSegurado enderecoSegurado;
-	private ContatoSegurado contatoSegurado;
 	private Segurado segurado;
-	private Veiculo veiculo;
 	
 	public Chamado() {}
 	
@@ -72,31 +69,6 @@ public class Chamado {
 	}
 
 
-
-	public EnderecoSegurado getEnderecoSegurado() {
-		return enderecoSegurado;
-	}
-
-
-
-	public void setEnderecoSegurado(EnderecoSegurado enderecoSegurado) {
-		this.enderecoSegurado = enderecoSegurado;
-	}
-
-
-
-	public ContatoSegurado getContatoSegurado() {
-		return contatoSegurado;
-	}
-
-
-
-	public void setContatoSegurado(ContatoSegurado contatoSegurado) {
-		this.contatoSegurado = contatoSegurado;
-	}
-
-
-
 	public Segurado getSegurado() {
 		return segurado;
 	}
@@ -106,19 +78,6 @@ public class Chamado {
 	public void setSegurado(Segurado segurado) {
 		this.segurado = segurado;
 	}
-
-
-
-	public Veiculo getVeiculo() {
-		return veiculo;
-	}
-
-
-
-	public void setVeiculo(Veiculo veiculo) {
-		this.veiculo = veiculo;
-	}
-
 
 	
 

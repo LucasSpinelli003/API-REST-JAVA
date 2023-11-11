@@ -26,18 +26,12 @@ public class ChamadoService {
 
 	private SeguradoDao seguradoDao;
 	private ChamadoDao chamadoDao;
-	private ContatoSeguradoDao contatoSeguradoDao;
 	private EnderecoChamadoDao enderecoChamadoDao;
-	private EnderecoSeguradoDao enderecoSeguradoDao;
-	private VeiculoDao veiculoDao;
 	
 	public ChamadoService() throws ClassNotFoundException, SQLException {
 		Connection conn = ConnectionFactory.getConnection();
 		chamadoDao = new ChamadoDao(conn);
 		enderecoChamadoDao = new EnderecoChamadoDao(conn); 
-		contatoSeguradoDao = new ContatoSeguradoDao(conn);
-		enderecoSeguradoDao = new EnderecoSeguradoDao(conn);
-		veiculoDao = new VeiculoDao(conn);
 		seguradoDao = new SeguradoDao(conn);
 		}
 	
@@ -80,21 +74,9 @@ public class ChamadoService {
 			Segurado segurado = seguradoDao.pesquisar(ch.getSegurado().getId());
 			ch.setSegurado(segurado);
 		}
-		if (ch.getContatoSegurado() != null) {
-			ContatoSegurado contatoSegurado = contatoSeguradoDao.pesquisar(ch.getContatoSegurado().getId());
-			ch.setContatoSegurado(contatoSegurado);
-		}
 		if (ch.getEnderecoChamado() != null) {
 			EnderecoChamado enderecoChamado = enderecoChamadoDao.pesquisar(ch.getEnderecoChamado().getId());
 			ch.setEnderecoChamado(enderecoChamado);
-		}
-		if (ch.getEnderecoSegurado() != null) {
-			EnderecoSegurado enderecoSegurado = enderecoSeguradoDao.pesquisar(ch.getEnderecoSegurado().getId());
-			ch.setEnderecoSegurado(enderecoSegurado);
-		}
-		if (ch.getVeiculo() != null) {
-			Veiculo veiculo = veiculoDao.pesquisar(ch.getVeiculo().getId());
-			ch.setVeiculo(veiculo);
 		}
 		return ch;
 	}

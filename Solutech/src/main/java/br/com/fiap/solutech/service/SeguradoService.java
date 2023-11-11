@@ -67,6 +67,7 @@ public class SeguradoService {
 		if (segurado.getEnderecoSegurado() != null) {
 			EnderecoSegurado enderecoSegurado = enderecoSeguradoDao.pesquisar(segurado.getEnderecoSegurado().getId());
 			segurado.setEnderecoSegurado(enderecoSegurado);
+			
 		}
 		if (segurado.getContatoSegurado() != null) {
 			ContatoSegurado contatoSegurado = contatoSeguradoDao.pesquisar(segurado.getContatoSegurado().getId());
