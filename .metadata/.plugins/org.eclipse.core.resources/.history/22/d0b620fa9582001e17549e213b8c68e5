@@ -76,7 +76,7 @@ public class SeguradoResource {
 	}
 
 	
-	//PUT http://localhost:8080//api/produto/1 (Atualizar um produto)
+	//PUT http://localhost:8080/07-WebApi/api/produto/1 (Atualizar um produto)
 	@PUT
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
