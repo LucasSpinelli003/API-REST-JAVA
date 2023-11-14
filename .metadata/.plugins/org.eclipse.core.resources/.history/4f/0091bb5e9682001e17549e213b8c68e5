@@ -76,7 +76,7 @@ public class SeguradoResource {
 	}
 
 	
-	//PUT http://localhost:8080/Solutech/api/segurado/1 (Atualizar um produto)
+	//PUT http://localhost:8080//api/produto/1 (Atualizar um produto)
 	@PUT
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -92,7 +92,7 @@ public class SeguradoResource {
 		}
 	}
 	
-	//DELETE http://localhost:8080/Solutech/api/segurado/1 (Apagar um produto)
+	//DELETE http://localhost:8080/07-WebApi/api/produto/1 (Apagar um produto)
 	@DELETE
 	@Path("/{id}")
 	public Response remover(@PathParam("id") int id) throws ClassNotFoundException, SQLException {
