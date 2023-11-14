@@ -1,0 +1,5 @@
+package br.com.fiap.solutech.resource;
+
+public class CorsFilter {
+
+}

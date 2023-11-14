@@ -22,20 +22,20 @@ public class VeiculoDao {
 	}
 
 	public List<Veiculo> pesquisarPorNome(String nome) throws SQLException {
-		// Criar o objeto com o comando SQL
+		
 		PreparedStatement stm = conn.prepareStatement("select * from t_sip_info_veiculo where modelo like ?");
-		// Setar o parametro no comando SQL
+		
 		stm.setString(1, "%" + nome + "%");
-		// Executar o comando SQL
+		
 		ResultSet result = stm.executeQuery();
-		// Criar a lista de produtos
+		
 		List<Veiculo> lista = new ArrayList<>();
-		// Recuperar os produtos encontrados e adicionar na lista
+		
 		while (result.next()) {
 			Veiculo veiculo = parse(result);
 			lista.add(veiculo);
 		}
-		// Retornar a lista
+		
 		return lista;
 	}
 
@@ -65,22 +65,36 @@ public class VeiculoDao {
 		String tipoCarroceria = result.getString("tipo_carroceria");
 		int pesoCarga = result.getInt("peso_carga");
 		String alteracoes = result.getString("alteracoes");
+		String placa = result.getString("placa");
 
 		Veiculo veiculo = new Veiculo(id, modelo, peso, altura, comprimento, largura, eixos, tipoCarroceria, pesoCarga,
-				alteracoes);
+				alteracoes,placa);
 
 		return veiculo;
 	}
 
 	public void cadastrar(Veiculo veiculo) throws ClassNotFoundException, SQLException {
+		
+		PreparedStatement stmm = conn.prepareStatement("select * from t_sip_info_veiculo");
 
-		// Criar o objeto com o comando SQL configuravel
+		ResultSet resultGet = stmm.executeQuery();
+
+		List<Veiculo> lista = new ArrayList<Veiculo>();
+
+		while (resultGet.next()) {
+			Veiculo veiculoGet = parse(resultGet);
+			lista.add(veiculoGet);
+		}
+		
+		int id = lista.size() + 1;
+
+		
 		PreparedStatement stm = conn.prepareStatement("INSERT INTO"
-				+ " T_SIP_INFO_VEICULO (id_info_veiculo, modelo, peso, altura, comprimento, largura, qtd_eixos, tipo_carroceria, peso_carga,alteracoes) "
-				+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+				+ " T_SIP_INFO_VEICULO (id_info_veiculo, modelo, peso, altura, comprimento, largura, qtd_eixos, tipo_carroceria, peso_carga, alteracoes, placa) "
+				+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-		// Setar os valores no comando SQL
-		stm.setInt(1, veiculo.getId());
+		
+		stm.setInt(1, id);
 		stm.setString(2, veiculo.getModelo());
 		stm.setDouble(3, veiculo.getPeso());
 		stm.setDouble(4, veiculo.getAltura());
@@ -90,17 +104,18 @@ public class VeiculoDao {
 		stm.setString(8, veiculo.getTipoCarroceria());
 		stm.setDouble(9, veiculo.getPesoCarga());
 		stm.setString(10, veiculo.getAlteracoes());
+		stm.setString(11, veiculo.getPlaca());
 
-		// Executar o comando SQL
+		
 		stm.executeUpdate();
 	}
 
 	public void atualizar(Veiculo veiculo) throws ClassNotFoundException, SQLException, IdNotFoundException {
 
-		// PreparedStatement
+		
 		PreparedStatement stm = conn.prepareStatement(
-				"update t_sip_info_veiculo set modelo = ?, peso = ?, altura = ?, comprimento = ?, largura = ?, qtd_eixos = ?, tipo_carroceria = ?, peso_carga = ?, alteracoes = ? where id_info_veiculo = ?");
-		// Setar os parametros na Query
+				"update t_sip_info_veiculo set modelo = ?, peso = ?, altura = ?, comprimento = ?, largura = ?, qtd_eixos = ?, tipo_carroceria = ?, peso_carga = ?, alteracoes = ? , placa = ? where id_info_veiculo = ?");
+		
 		if (veiculo.getModelo() != null) {
 			stm.setString(1, veiculo.getModelo());
 			stm.setDouble(2, veiculo.getPeso());
@@ -112,7 +127,8 @@ public class VeiculoDao {
 			stm.setDouble(8, veiculo.getPesoCarga());
 			stm.setString(9, veiculo.getAlteracoes());
 			stm.setInt(10, veiculo.getId());
-			// Executar a Query
+			stm.setString(11, veiculo.getPlaca());
+			
 			int linha = stm.executeUpdate();
 			if (linha == 0) {
 				throw new IdNotFoundException("Veiculo não encontrado para atualizar");
@@ -122,33 +138,33 @@ public class VeiculoDao {
 
 	public Veiculo pesquisar(int id) throws ClassNotFoundException, SQLException, IdNotFoundException {
 
-		// PreparedStatement (com select)
+		
 		PreparedStatement stm = conn
 				.prepareStatement("select * from" + " t_sip_info_veiculo where id_info_veiculo = ?");
 
-		// Setar o id no comando sql (select)
+		
 		stm.setInt(1, id);
 
-		// Executar o comando SQL
+		
 		ResultSet result = stm.executeQuery();
 
-		// Verifica se encontrou o produto
+		
 		if (!result.next()) {
-			// Lança uma exception pois o produto não foi encontrado
+			
 			throw new IdNotFoundException("Veiculo não encontrado");
 		}
 		Veiculo veiculo = parse(result);
-		// Retornar o produto
+		
 		return veiculo;
 	}
 
 	public void remover(int id) throws ClassNotFoundException, SQLException, IdNotFoundException {
 
-		// PreparedStatement
+		
 		PreparedStatement stm = conn.prepareStatement("delete from t_sip_info_veiculo where id_info_veiculo = ?");
-		// Setar os parametros na Query
+		
 		stm.setInt(1, id);
-		// Executar a Query
+		
 		int linha = stm.executeUpdate();
 		if (linha == 0)
 			throw new IdNotFoundException("Veiculo não encontrado para remoção");

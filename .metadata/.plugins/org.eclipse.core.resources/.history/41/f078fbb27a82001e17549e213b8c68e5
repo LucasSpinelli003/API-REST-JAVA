@@ -1,0 +1,119 @@
+package br.com.fiap.solutech.model;
+
+import java.time.LocalDateTime;
+import java.util.Random;
+
+public class Chamado {
+	private int id;
+	private String descricao;
+	private LocalDateTime dataCadastro;
+	private String modalIndicado;
+	private EnderecoChamado enderecoChamado;
+	private Segurado segurado;
+	private Veiculo veiculo;
+	
+	public Chamado() {}
+		
+	public Chamado(int id, String descricao, LocalDateTime dataCadastro, String modalIndicado) {
+		super();
+		this.id = id;
+		this.descricao = descricao;
+		this.dataCadastro = dataCadastro;
+		this.modalIndicado = modalIndicado;
+	}
+	public int idGenerator() {
+		Random random = new Random();
+		
+		int numeroAleatorio = random.nextInt();
+		
+		// Imprimir o número aleatório gerado
+		System.out.println("Número Aleatório: " + numeroAleatorio);
+		
+		// Gerar um número inteiro aleatório no intervalo de 1 a 100
+		int numeroAleatorioNoIntervalo = random.nextInt(100) + 1;
+		return numeroAleatorioNoIntervalo;
+	}
+	
+
+
+	public String getModalIndicado() {
+		return modalIndicado;
+	}
+
+
+
+	public void setModalIndicado(String modalIndicado) {
+		this.modalIndicado = modalIndicado;
+	}
+
+	
+
+
+	public Veiculo getVeiculo() {
+		return veiculo;
+	}
+
+	public void setVeiculo(Veiculo veiculo) {
+		this.veiculo = veiculo;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+
+
+	public LocalDateTime getDataCadastro() {
+		return dataCadastro;
+	}
+
+
+
+	public void setDataCadastro(LocalDateTime dataCadastro) {
+		this.dataCadastro = dataCadastro;
+	}
+
+
+
+	public EnderecoChamado getEnderecoChamado() {
+		return enderecoChamado;
+	}
+
+
+
+	public void setEnderecoChamado(EnderecoChamado enderecoChamado) {
+		this.enderecoChamado = enderecoChamado;
+	}
+
+
+	public Segurado getSegurado() {
+		return segurado;
+	}
+
+
+
+	public void setSegurado(Segurado segurado) {
+		this.segurado = segurado;
+	}
+
+	
+
+}

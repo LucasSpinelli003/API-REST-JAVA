@@ -32,20 +32,18 @@ public class SeguradoService {
 	}
 	
 	public void cadastrar(Segurado segurado) throws ClassNotFoundException, SQLException, BadInfoException {
-		//validar(segurado);
+		validar(segurado);
 		seguradoDao.cadastrar(segurado);
 	}
 
 	private void validar(Segurado segurado) throws BadInfoException {
-		//Implementar algumas regras:
-		//Nome obrigatorio e nao pode ter mais do que 50 caracteres
-		if (segurado.getNome() == null || segurado.getNome().length() > 80) {
-			throw new BadInfoException("Nome invalido, nao pode ser nulo e no maximo 80 caracteres");
+		if (segurado.getNome() == null || segurado.getNome().length() > 100) {
+			throw new BadInfoException("Nome invalido, nao pode ser nulo e no maximo 100 caracteres");
 		}
 	}
 	
 	public void atualizar(Segurado segurado) throws ClassNotFoundException, SQLException, IdNotFoundException, BadInfoException {
-		//validar(segurado);
+		validar(segurado);
 		seguradoDao.atualizar(segurado);
 	}
 	
@@ -63,7 +61,6 @@ public class SeguradoService {
 	
 	public Segurado pesquisar(int id) throws ClassNotFoundException, SQLException, IdNotFoundException{
 		Segurado segurado = seguradoDao.pesquisar(id);
-		//Recuperar a categoria do produto, se existir
 		if (segurado.getEnderecoSegurado() != null) {
 			EnderecoSegurado enderecoSegurado = enderecoSeguradoDao.pesquisar(segurado.getEnderecoSegurado().getId());
 			segurado.setEnderecoSegurado(enderecoSegurado);

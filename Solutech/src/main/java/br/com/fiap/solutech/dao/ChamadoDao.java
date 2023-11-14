@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import br.com.fiap.solutech.exception.BadInfoException;
 import br.com.fiap.solutech.exception.IdNotFoundException;
 import br.com.fiap.solutech.model.Chamado;
 import br.com.fiap.solutech.model.ContatoSegurado;
@@ -20,7 +22,7 @@ public class ChamadoDao {
 	private Connection conn;
 	
 	public ChamadoDao() {}
-	
+			
 	public ChamadoDao(Connection conn) {
 		this.conn = conn;
 	}
@@ -58,57 +60,58 @@ public class ChamadoDao {
 			EnderecoChamado enderecoChamado = new EnderecoChamado();
 			enderecoChamado.setId(idEnderecoChamado);
 			chamado.setEnderecoChamado(enderecoChamado);
-			chamado.setEnderecoChamado(enderecoChamado);
 		}
 		
 		return chamado;
 	}
 	
-	public void cadastrar(Chamado chamado) throws ClassNotFoundException, SQLException {
+	public void cadastrar(Chamado chamado) throws ClassNotFoundException, SQLException, BadInfoException {
+		PreparedStatement stmm = conn.prepareStatement("select * from t_sip_chamado");
 
-		// Criar o objeto com o comando SQL configuravel
+		ResultSet resultGet = stmm.executeQuery();
+
+		List<Chamado> lista = new ArrayList<Chamado>();
+
+		while (resultGet.next()) {
+			Chamado chamadoGet = parse(resultGet);
+			lista.add(chamadoGet);
+		}
+		
+		int id = lista.size() + 1;
+		
 		PreparedStatement stm = conn.prepareStatement("INSERT INTO" + " T_SIP_CHAMADO (id_chamado, id_segurado,"
-				+ "id_endereco_chamado,descricao, data_chamado) "
+				+ "id_endereco_chamado, descricao, data_chamado ) "
 				+ "values (?, ?, ?, ?, ?)");
 
-		// Setar os valores no comando SQL
-		stm.setInt(1, chamado.getId());
+		stm.setInt(1, id);
 		stm.setInt(2, chamado.getSegurado().getId());
 		stm.setInt(3, chamado.getEnderecoChamado().getId());
 		stm.setString(4, chamado.getDescricao());
 		stm.setObject(5, chamado.getDataCadastro());
-		// Executar o comando SQL
+		
 		stm.executeUpdate();
 	}
 	public Chamado pesquisar(int id) throws ClassNotFoundException, SQLException, IdNotFoundException {
 
-		// PreparedStatement (com select)
 		PreparedStatement stm = conn.prepareStatement("select * from" + " t_sip_chamado where id_chamado = ?");
 
-		// Setar o id no comando sql (select)
 		stm.setInt(1, id);
 
-		// Executar o comando SQL
 		ResultSet result = stm.executeQuery();
 
-		// Verifica se encontrou o produto
 		if (!result.next()) {
-			// Lança uma exception pois o produto não foi encontrado
 			throw new IdNotFoundException("Chamado não encontrado");
 		}
 		Chamado chamado = parse(result);
-		// Retornar o produto
 		return chamado;
 	}
 	
 	public void atualizar(Chamado chamado) throws ClassNotFoundException, SQLException, IdNotFoundException {
 
-		// PreparedStatement
 		PreparedStatement stm = conn.prepareStatement("update t_sip_chamado set descricao = ? where id_chamado = ?");
-		// Setar os parametros na Query
+		
 		stm.setString(1, chamado.getDescricao());
 		stm.setInt(2, chamado.getId());
-		// Executar a Query
 		int linha = stm.executeUpdate();
 		if (linha == 0)
 			throw new IdNotFoundException("Chamado não encontrado para atualizar");
@@ -116,11 +119,8 @@ public class ChamadoDao {
 	
 	public void remover(int id) throws ClassNotFoundException, SQLException, IdNotFoundException {
 		
-		// PreparedStatement
 		PreparedStatement stm = conn.prepareStatement("delete from t_sip_chamado where id_chamado = ?");
-		// Setar os parametros na Query
 		stm.setInt(1, id);
-		// Executar a Query
 		int linha = stm.executeUpdate();
 		if (linha == 0)
 			throw new IdNotFoundException("Chamado não encontrado para remoção");

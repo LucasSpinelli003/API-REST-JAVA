@@ -26,12 +26,9 @@ public class VeiculoService {
 	}
 
 	private void validar(Veiculo veiculo) throws BadInfoException {
-		//Implementar algumas regras:
-		//Nome obrigatorio e nao pode ter mais do que 50 caracteres
 		if (veiculo.getModelo() == null || veiculo.getModelo().length() > 50) {
 			throw new BadInfoException("Nome invalido, nao pode ser nulo e no maximo 50 caracteres");
 		}
-		//Estoque, Valor de Compra e Venda tem que ser maiores do que 0
 		if (veiculo.getPeso() <= 0) {
 			throw new BadInfoException("Peso precisa que ser maior que 0");
 		}
@@ -59,7 +56,7 @@ public class VeiculoService {
 	}
 	
 	public void atualizar(Veiculo veiculo) throws ClassNotFoundException, SQLException, IdNotFoundException, BadInfoException {
-		//validar(veiculo);
+		validar(veiculo);
 		veiculoDao.atualizar(veiculo);
 	}
 	

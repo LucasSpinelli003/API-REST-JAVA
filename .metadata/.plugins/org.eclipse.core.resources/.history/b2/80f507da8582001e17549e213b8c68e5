@@ -1,0 +1,79 @@
+package br.com.fiap.solutech.model;
+import java.time.LocalDateTime;
+
+public class Chamado {
+	private int id;
+	private String descricao;
+	private LocalDateTime dataCadastro;
+	private EnderecoChamado enderecoChamado;
+	private Segurado segurado;
+
+	public Chamado() {}
+		
+	public Chamado(int id, String descricao, LocalDateTime dataCadastro) {
+		super();
+		this.id = id;
+		this.descricao = descricao;
+		this.dataCadastro = dataCadastro;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+
+
+	public LocalDateTime getDataCadastro() {
+		return dataCadastro;
+	}
+
+
+
+	public void setDataCadastro(LocalDateTime dataCadastro) {
+		this.dataCadastro = dataCadastro;
+	}
+
+
+
+	public EnderecoChamado getEnderecoChamado() {
+		return enderecoChamado;
+	}
+
+
+
+	public void setEnderecoChamado(EnderecoChamado enderecoChamado) {
+		this.enderecoChamado = enderecoChamado;
+	}
+
+
+	public Segurado getSegurado() {
+		return segurado;
+	}
+
+
+
+	public void setSegurado(Segurado segurado) {
+		this.segurado = segurado;
+	}
+
+	
+
+}

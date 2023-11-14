@@ -26,20 +26,20 @@ public class SeguradoDao {
 	
 	
 	public List<Segurado> pesquisarPorNome(String nome) throws SQLException{
-		//Criar o objeto com o comando SQL
+	
 		PreparedStatement stm = conn.prepareStatement("select * from t_sip_segurado where nome_completo like ?");
-		//Setar o parametro no comando SQL
+		
 		stm.setString(1, "%"+nome+"%");
-		//Executar o comando SQL
+		
 		ResultSet result = stm.executeQuery();
-		//Criar a lista de produtos
+	
 		List<Segurado> lista = new ArrayList<>();
-		//Recuperar os produtos encontrados e adicionar na lista
+		
 		while (result.next()) {
 			Segurado segurado = parse(result);
 			lista.add(segurado);
 		}
-		//Retornar a lista
+		
 		return lista;
 	}
 
@@ -90,14 +90,27 @@ public class SeguradoDao {
 	}
 
 	public void cadastrar(Segurado segurado) throws ClassNotFoundException, SQLException {
+		
+		PreparedStatement stmm = conn.prepareStatement("select * from t_sip_segurado");
 
-		// Criar o objeto com o comando SQL configuravel
+		ResultSet resultGet = stmm.executeQuery();
+
+		List<Segurado> lista = new ArrayList<Segurado>();
+
+		while (resultGet.next()) {
+			Segurado seguradoGet = parse(resultGet);
+			lista.add(seguradoGet);
+		}
+		
+		int id = lista.size() + 1;
+
+		
 		PreparedStatement stm = conn.prepareStatement(
 				"INSERT INTO" + " T_SIP_SEGURADO (id_segurado, id_endereco_segurado, id_contato_segurado,"
 						+ " id_info_veiculo ,nome_completo, data_nascimento, rg,cpf) " + "values (?, ?, ?, ?, ?, ?, ?, ?)");
 
-		// Setar os valores no comando SQL
-		stm.setInt(1, segurado.getId());
+		
+		stm.setInt(1, id);
 		stm.setInt(2, segurado.getEnderecoSegurado().getId());
 		stm.setInt(3, segurado.getContatoSegurado().getId());
 		stm.setInt(4,segurado.getVeiculo().getId());
@@ -105,42 +118,42 @@ public class SeguradoDao {
 		stm.setObject(6, segurado.getDataNascimento());
 		stm.setString(7, segurado.getRg());
 		stm.setString(8, segurado.getCpf());
-		// Executar o comando SQL
+		
 		stm.executeUpdate();
 	}
 
 	public Segurado pesquisar(int id) throws ClassNotFoundException, SQLException, IdNotFoundException {
 
-		// PreparedStatement (com select)
+	
 		PreparedStatement stm = conn.prepareStatement("select * from" + " t_sip_segurado where id_segurado = ?");
 
-		// Setar o id no comando sql (select)
+		
 		stm.setInt(1, id);
 
-		// Executar o comando SQL
+	
 		ResultSet result = stm.executeQuery();
 
-		// Verifica se encontrou o produto
+		
 		if (!result.next()) {
-			// Lança uma exception pois o produto não foi encontrado
+			
 			throw new IdNotFoundException("Segurado não encontrado");
 		}
 		Segurado segurado = parse(result);
-		// Retornar o produto
+	
 		return segurado;
 	}
 
 	public void atualizar(Segurado segurado) throws ClassNotFoundException, SQLException, IdNotFoundException {
 
-		// PreparedStatement
+		
 		PreparedStatement stm = conn
 				.prepareStatement("update t_sip_segurado set nome_completo = ?, rg = ?, cpf =? where id_segurado = ?");
-		// Setar os parametros na Query
+		
 		stm.setString(1, segurado.getNome());
 		stm.setString(2, segurado.getRg());
 		stm.setString(3, segurado.getCpf());
 		stm.setInt(4, segurado.getId());
-		// Executar a Query
+		
 		int linha = stm.executeUpdate();
 		if (linha == 0)
 			throw new IdNotFoundException("Segurado não encontrado para atualizar");
@@ -148,11 +161,11 @@ public class SeguradoDao {
 
 	public void remover(int id) throws ClassNotFoundException, SQLException, IdNotFoundException {
 
-		// PreparedStatement
+		
 		PreparedStatement stm = conn.prepareStatement("delete from t_sip_segurado where id_segurado = ?");
-		// Setar os parametros na Query
+		
 		stm.setInt(1, id);
-		// Executar a Query
+		
 		int linha = stm.executeUpdate();
 		if (linha == 0)
 			throw new IdNotFoundException("Segurado não encontrado para remoção");

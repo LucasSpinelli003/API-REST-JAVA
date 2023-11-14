@@ -25,7 +25,7 @@ import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.core.UriBuilder;
 import jakarta.ws.rs.core.UriInfo;
 
-@Path("/veiculo") //http://localhost:8080/07-WebApi/api/produto
+@Path("/veiculo") //http://localhost:8080/Solutech/api/veiculo
 public class VeiculoResource {
 
 	private VeiculoService service;
@@ -34,7 +34,7 @@ public class VeiculoResource {
 		service = new VeiculoService();
 	}
 	
-	//GET http://localhost:8080/07-WebApi/api/produto/query?nome=aaa(Pesquisar por nome)
+	//GET http://localhost:8080/Solutech/api/veiculo/query?nome=aaa(Pesquisar por nome)
 	@GET
 	@Path("/query")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -42,14 +42,14 @@ public class VeiculoResource {
 		return service.pesquisarPorNome(pesquisa);
 	}
 	
-	//GET http://localhost:8080/07-WebApi/api/produto (Listar todos os produtos)
+	//GET http://localhost:8080/Solutech/api/veiculo (Listar todos os produtos)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Veiculo> lista() throws ClassNotFoundException, SQLException {
 		return service.listar();
 	}
 	
-	//GET http://localhost:8080/07-WebApi/api/produto/1 (Pesquisar pelo Id)
+	//GET http://localhost:8080/Solutech/api/veiculo/1 (Pesquisar pelo Id)
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -57,33 +57,28 @@ public class VeiculoResource {
 		try {
 			return Response.ok(service.pesquisar(id)).build();
 		} catch (IdNotFoundException e) {
-			//Retornar 404 caso o produto não exista
 			return Response.status(Status.NOT_FOUND).build();
 		}
 	}
 	
-	//POST http://localhost:8080/07-WebApi/api/produto/ (Cadastrar um produto)
+	//POST http://localhost:8080/Solutech/api/veiculo/ (Cadastrar um produto)
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response cadastrar(Veiculo veiculo, @Context UriInfo uri) throws ClassNotFoundException, SQLException {
 		try {
 			service.cadastrar(veiculo);
-			//Recupera o path (URL atual(http://localhost:8080/07-WebApi/api/produto/))
 			UriBuilder uriBuilder = uri.getAbsolutePathBuilder();
-			//Adiciona o id do produto que foi criado na URL
 			uriBuilder.path(String.valueOf(veiculo.getId()));
-			//Retornar o status 201 com a URL para acessar o produto criado
 			return Response.created(uriBuilder.build()).build();
 		} catch (BadInfoException e) {
 			e.printStackTrace();
-			//Retornar o status 400 bad request
 			return Response.status(Status.BAD_REQUEST)
 								.entity(e.getMessage()).build();
 		}
 	}
 
 	
-	//PUT http://localhost:8080/07-WebApi/api/produto/1 (Atualizar um produto)
+	//PUT http://localhost:8080/Solutech/api/veiculo/1 (Atualizar um produto)
 	@PUT
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -99,7 +94,7 @@ public class VeiculoResource {
 		}
 	}
 	
-	//DELETE http://localhost:8080/07-WebApi/api/produto/1 (Apagar um produto)
+	//DELETE http://localhost:8080/Solutech/api/veiculo/1 (Apagar um produto)
 	@DELETE
 	@Path("/{id}")
 	public Response remover(@PathParam("id") int id) throws ClassNotFoundException, SQLException {

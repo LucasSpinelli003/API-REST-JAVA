@@ -24,7 +24,7 @@ import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.core.UriBuilder;
 import jakarta.ws.rs.core.UriInfo;
 
-@Path("/enderecoChamado") //http://localhost:8080/07-WebApi/api/produto
+@Path("/enderecoChamado") //http://localhost:8080/Solutech/api/enderecoChamado
 public class EnderecoChamadoResource {
 
 	private EnderecoChamadoService service;
@@ -33,7 +33,7 @@ public class EnderecoChamadoResource {
 		service = new EnderecoChamadoService();
 	}
 	
-	//GET http://localhost:8080/07-WebApi/api/produto/query?nome=aaa(Pesquisar por nome)
+	//GET http://localhost:8080/Solutech/api/enderecoChamado/query?nome=aaa(Pesquisar por nome)
 	@GET
 	@Path("/query")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -41,14 +41,14 @@ public class EnderecoChamadoResource {
 		return service.pesquisarPorNome(pesquisa);
 	}
 	
-	//GET http://localhost:8080/07-WebApi/api/produto (Listar todos os produtos)
+	//GET http://localhost:8080/Solutech/api/enderecoChamado (Listar todos os produtos)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<EnderecoChamado> lista() throws ClassNotFoundException, SQLException {
 		return service.listar();
 	}
 	
-	//GET http://localhost:8080/07-WebApi/api/produto/1 (Pesquisar pelo Id)
+	//GET http://localhost:8080/Solutech/api/enderecoChamado/1 (Pesquisar pelo Id)
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -56,33 +56,28 @@ public class EnderecoChamadoResource {
 		try {
 			return Response.ok(service.pesquisar(id)).build();
 		} catch (IdNotFoundException e) {
-			//Retornar 404 caso o produto não exista
 			return Response.status(Status.NOT_FOUND).build();
 		}
 	}
 	
-	//POST http://localhost:8080/07-WebApi/api/produto/ (Cadastrar um produto)
+	//POST http://localhost:8080/Solutech/api/enderecoChamado/ (Cadastrar um produto)
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response cadastrar(EnderecoChamado enderecoChamado, @Context UriInfo uri) throws ClassNotFoundException, SQLException {
 		try {
 			service.cadastrar(enderecoChamado);
-			//Recupera o path (URL atual(http://localhost:8080/07-WebApi/api/produto/))
 			UriBuilder uriBuilder = uri.getAbsolutePathBuilder();
-			//Adiciona o id do produto que foi criado na URL
 			uriBuilder.path(String.valueOf(enderecoChamado.getId()));
-			//Retornar o status 201 com a URL para acessar o produto criado
 			return Response.created(uriBuilder.build()).build();
 		} catch (BadInfoException e) {
 			e.printStackTrace();
-			//Retornar o status 400 bad request
 			return Response.status(Status.BAD_REQUEST)
 								.entity(e.getMessage()).build();
 		}
 	}
 
 	
-	//PUT http://localhost:8080/07-WebApi/api/produto/1 (Atualizar um produto)
+	//PUT http://localhost:8080/Solutech/api/enderecoChamado/1 (Atualizar um produto)
 	@PUT
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -98,7 +93,7 @@ public class EnderecoChamadoResource {
 		}
 	}
 	
-	//DELETE http://localhost:8080/07-WebApi/api/produto/1 (Apagar um produto)
+	//DELETE http://localhost:8080/Solutech/api/enderecoChamado/1 (Apagar um produto)
 	@DELETE
 	@Path("/{id}")
 	public Response remover(@PathParam("id") int id) throws ClassNotFoundException, SQLException {
@@ -111,8 +106,3 @@ public class EnderecoChamadoResource {
 	}
 	
 }
-
-
-
-
-

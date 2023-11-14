@@ -1,5 +1,4 @@
 package br.com.fiap.solutech.model;
-
 import java.time.LocalDateTime;
 
 public class Chamado {
@@ -9,24 +8,19 @@ public class Chamado {
 	private EnderecoChamado enderecoChamado;
 	private Segurado segurado;
 	
-	public Chamado() {}
-	
-	
 
+	public Chamado() {}
+		
 	public Chamado(int id, String descricao, LocalDateTime dataCadastro) {
 		super();
 		this.id = id;
 		this.descricao = descricao;
 		this.dataCadastro = dataCadastro;
 	}
-
-
-
+	
 	public int getId() {
 		return id;
 	}
-
-
 
 	public void setId(int id) {
 		this.id = id;

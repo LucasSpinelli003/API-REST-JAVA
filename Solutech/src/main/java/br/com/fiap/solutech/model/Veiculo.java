@@ -11,12 +11,12 @@ public class Veiculo {
 	private String tipoCarroceria;
 	private double pesoCarga;
 	private String alteracoes;
+	private String placa;
 	
 	public Veiculo() {}
-
-
+	
 	public Veiculo(int id, String modelo, double peso, double altura, double comprimento, double largura, int eixos,
-			String tipoCarroceria, double pesoCarga, String alteracoes) {
+			String tipoCarroceria, double pesoCarga, String alteracoes, String placa) {
 		super();
 		this.id = id;
 		this.modelo = modelo;
@@ -28,8 +28,22 @@ public class Veiculo {
 		this.tipoCarroceria = tipoCarroceria;
 		this.pesoCarga = pesoCarga;
 		this.alteracoes = alteracoes;
+		this.placa = placa;
 	}
 
+
+	public String getPlaca() {
+		return placa;
+	}
+
+	public void setPlaca(String placa) {
+		this.placa = placa;
+	}
+
+	public double pesoTotal() {
+		double pesoTotal = this.peso + this.pesoCarga;
+		return pesoTotal;
+	}
 
 
 	public int getId() {

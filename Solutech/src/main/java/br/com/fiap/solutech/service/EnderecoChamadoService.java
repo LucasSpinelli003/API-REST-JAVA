@@ -26,8 +26,6 @@ public class EnderecoChamadoService {
 	}
 
 	private void validar(EnderecoChamado enderecoChamado) throws BadInfoException {
-		//Implementar algumas regras:
-		//Nome obrigatorio e nao pode ter mais do que 50 caracteres
 		if (enderecoChamado.getLogradouro() == null || enderecoChamado.getLogradouro().length() > 120) {
 			throw new BadInfoException("Logradouro invalido, nao pode ser nulo e no maximo 120 caracteres");
 		}

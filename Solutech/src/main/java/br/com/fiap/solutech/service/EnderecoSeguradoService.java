@@ -20,23 +20,21 @@ public class EnderecoSeguradoService {
 		}
 	
 	public void cadastrar(EnderecoSegurado enderecoSegurado) throws ClassNotFoundException, SQLException, BadInfoException {
-		//validar(enderecoSegurado);
+		validar(enderecoSegurado);
 		enderecoSeguradoDao.cadastrar(enderecoSegurado);
 	}
 
 	private void validar(EnderecoSegurado enderecoSegurado) throws BadInfoException {
-		//Implementar algumas regras:
-		//Nome obrigatorio e nao pode ter mais do que 50 caracteres
-//		if (contatoSegurado.getTelefone() == null || contatoSegurado.getTelefone().length() > 11) {
-//			throw new BadInfoException("Telefone invalido, nao pode ser nulo e no maximo 11 caracteres");
-//		}
-//		if (contatoSegurado.getEmail() == null || contatoSegurado.getEmail().length() > 100) {
-//			throw new BadInfoException("Email invalido, nao pode ser nulo e no maximo 100 caracteres");
-//		}
+		if (enderecoSegurado.getCep() == null || enderecoSegurado.getCep().length() > 11) {
+			throw new BadInfoException("Telefone invalido, nao pode ser nulo e no maximo 11 caracteres");
+		}
+		if (enderecoSegurado.getLogradouro() == null || enderecoSegurado.getLogradouro().length() > 100) {
+			throw new BadInfoException("Email invalido, nao pode ser nulo e no maximo 100 caracteres");
+		}
 	}
 	
 	public void atualizar(EnderecoSegurado enderecoSegurado) throws ClassNotFoundException, SQLException, IdNotFoundException, BadInfoException {
-		//validar(contatoSegurado);
+		validar(enderecoSegurado);
 		enderecoSeguradoDao.atualizar(enderecoSegurado);
 	}
 	

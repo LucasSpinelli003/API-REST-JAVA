@@ -35,27 +35,19 @@ public class ChamadoService {
 		seguradoDao = new SeguradoDao(conn);
 		}
 	
-	/*
-	 * public void cadastrar(Produto produto) throws ClassNotFoundException,
-	 * SQLException, BadInfoException { validar(produto);
-	 * produtoDao.cadastrar(produto); }
-	 */
-	
-	public void cadastrar(Chamado chamado) throws ClassNotFoundException, SQLException, BadInfoException {
-		//validar(produto);
+	public void cadastrar(Chamado chamado) throws ClassNotFoundException, SQLException, BadInfoException, IdNotFoundException {
+		validar(chamado);
 		chamadoDao.cadastrar(chamado);
 	}
 
 	private void validar(Chamado chamado) throws BadInfoException {
-		//Implementar algumas regras:
-		//Nome obrigatorio e nao pode ter mais do que 50 caracteres
-//		if (produto.getNome() == null || produto.getNome().length() > 50) {
-//			throw new BadInfoException("Nome invalido, nao pode ser nulo e no maximo 50 caracteres");
-//		}
+		if (chamado.getDescricao() == null || chamado.getDescricao().length() > 200) {
+			throw new BadInfoException("Descricao invalida, nao pode ser nula e no maximo 200 caracteres");
+		}
 	}
 	
 	public void atualizar(Chamado chamado) throws ClassNotFoundException, SQLException, IdNotFoundException, BadInfoException {
-		//validar(produto);
+		validar(chamado);
 		chamadoDao.atualizar(chamado);
 	}
 	
@@ -63,13 +55,12 @@ public class ChamadoService {
 		chamadoDao.remover(id);
 	}
 	
-	public List<Chamado> listar() throws ClassNotFoundException, SQLException{
+	public List<Chamado> listar() throws ClassNotFoundException, SQLException, IdNotFoundException{
 		return chamadoDao.listar();
 	}
 		
 	public Chamado pesquisar(int id) throws ClassNotFoundException, SQLException, IdNotFoundException{
 		Chamado ch = chamadoDao.pesquisar(id);
-		//Recuperar a categoria do produto, se existir
 		if (ch.getSegurado() != null) {
 			Segurado segurado = seguradoDao.pesquisar(ch.getSegurado().getId());
 			ch.setSegurado(segurado);

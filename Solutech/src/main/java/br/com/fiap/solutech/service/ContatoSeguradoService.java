@@ -31,8 +31,6 @@ public class ContatoSeguradoService {
 	}
 
 	private void validar(ContatoSegurado contatoSegurado) throws BadInfoException {
-		//Implementar algumas regras:
-		//Nome obrigatorio e nao pode ter mais do que 50 caracteres
 		if (contatoSegurado.getTelefone() == null || contatoSegurado.getTelefone().length() > 11) {
 			throw new BadInfoException("Telefone invalido, nao pode ser nulo e no maximo 11 caracteres");
 		}
