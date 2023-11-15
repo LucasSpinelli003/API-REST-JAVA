@@ -9,4 +9,7 @@
     <fullyQualifiedTypeName name="br.com.fiap.banco.model.ContatoSegurado"/>
     <fullyQualifiedTypeName name="br.com.fiap.banco.model.EnderecoSegurado"/>
     <fullyQualifiedTypeName name="br.com.fiap.banco.model.EnderecoChamado"/>
+    <fullyQualifiedTypeName name="br.com.fiap.solutech.exception.BadInfoException"/>
+    <fullyQualifiedTypeName name="br.com.fiap.solutech.dao.VeiculoDao"/>
+    <fullyQualifiedTypeName name="java.util.Random"/>
 </qualifiedTypeNameHistroy>

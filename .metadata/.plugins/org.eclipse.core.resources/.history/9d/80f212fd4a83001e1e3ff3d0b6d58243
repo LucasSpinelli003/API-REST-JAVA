@@ -6,7 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import br.com.fiap.solutech.exception.IdNotFoundException;
+import br.com.fiap.solutech.model.EnderecoChamado;
+import br.com.fiap.solutech.model.Segurado;
 import br.com.fiap.solutech.model.Veiculo;
 
 public class VeiculoDao {
@@ -106,32 +109,32 @@ public class VeiculoDao {
 		
 		stm.executeUpdate();
 	}
-	
-		public void atualizar(Veiculo veiculo) throws ClassNotFoundException, SQLException, IdNotFoundException {
-	
-	
-	        PreparedStatement stm = conn.prepareStatement(
-	                "update t_sip_info_veiculo set modelo = ?, peso = ?, altura = ?, comprimento = ?, largura = ?, qtd_eixos = ?, tipo_carroceria = ?, peso_carga = ?, alteracoes = ? , placa = ? where id_info_veiculo = ?");
-	
-	        if (veiculo.getModelo() != null) {
-	            stm.setString(1, veiculo.getModelo());
-	            stm.setDouble(2, veiculo.getPeso());
-	            stm.setDouble(3, veiculo.getAltura());
-	            stm.setDouble(4, veiculo.getComprimento());
-	            stm.setDouble(5, veiculo.getLargura());
-	            stm.setDouble(6, veiculo.getEixos());
-	            stm.setString(7, veiculo.getTipoCarroceria());
-	            stm.setDouble(8, veiculo.getPesoCarga());
-	            stm.setString(9, veiculo.getAlteracoes());
-	            stm.setString(10, veiculo.getPlaca());
-	            stm.setInt(11, veiculo.getId());
-	
-	            int linha = stm.executeUpdate();
-	            if (linha == 0) {
-	                throw new IdNotFoundException("Veiculo não encontrado para atualizar");
-	            }
-	        }
-	    }
+
+	public void atualizar(Veiculo veiculo) throws ClassNotFoundException, SQLException, IdNotFoundException {
+
+		
+		PreparedStatement stm = conn.prepareStatement(
+				"update t_sip_info_veiculo set modelo = ?, peso = ?, altura = ?, comprimento = ?, largura = ?, qtd_eixos = ?, tipo_carroceria = ?, peso_carga = ?, alteracoes = ? , placa = ? where id_info_veiculo = ?");
+		
+		if (veiculo.getModelo() != null) {
+			stm.setString(1, veiculo.getModelo());
+			stm.setDouble(2, veiculo.getPeso());
+			stm.setDouble(3, veiculo.getAltura());
+			stm.setDouble(4, veiculo.getComprimento());
+			stm.setDouble(5, veiculo.getLargura());
+			stm.setDouble(6, veiculo.getEixos());
+			stm.setString(7, veiculo.getTipoCarroceria());
+			stm.setDouble(8, veiculo.getPesoCarga());
+			stm.setString(9, veiculo.getAlteracoes());
+			stm.setInt(10, veiculo.getId());
+			stm.setString(11, veiculo.getPlaca());
+			
+			int linha = stm.executeUpdate();
+			if (linha == 0) {
+				throw new IdNotFoundException("Veiculo não encontrado para atualizar");
+			}
+		}
+	}
 
 	public Veiculo pesquisar(int id) throws ClassNotFoundException, SQLException, IdNotFoundException {
 
@@ -157,13 +160,14 @@ public class VeiculoDao {
 
 	public void remover(int id) throws ClassNotFoundException, SQLException, IdNotFoundException {
 
+		
+		PreparedStatement stm = conn.prepareStatement("delete from t_sip_info_veiculo where id_info_veiculo = ?");
+		
+		stm.setInt(1, id);
+		
+		int linha = stm.executeUpdate();
+		if (linha == 0)
+			throw new IdNotFoundException("Veiculo não encontrado para remoção");
+	}
 
-        PreparedStatement stm = conn.prepareStatement("delete from t_sip_info_veiculo where id_info_veiculo = ?");
-
-        stm.setInt(1, id);
-
-        int linha = stm.executeUpdate();
-        if (linha == 0)
-            throw new IdNotFoundException("Veiculo não encontrado para remoção");
-    }
 }
